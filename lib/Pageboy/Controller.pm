@@ -72,19 +72,17 @@ sub index {
         $_->select('article')->repeat([
             map {
                 my $data = $_;
-                my $is_event = $data->{type} eq 'event';
-                my $cat_or_loc = $is_event ? $data->{location} : $data->{category};
                 sub {
-                    $_->select('article')->set_attribute(class => $data->{type})
-                      ->select('a.author')->replace_content($data->{author}{name})
-                      ->then->set_attribute(href => (sprintf '/author/%s', $data->{author}{slug}))
+                    my $z = $_->select('article')->set_attribute(class => $data->{type});
 
-                      ->select('a.category')->replace_content($cat_or_loc->{name})
-                      ->then->set_attribute(href => (sprintf '/%s/%s', 
-                            $is_event ? 'location' : 'category', $cat_or_loc->{slug}))
-
-                      ->select('a.source')->replace_content($data->{source}{name})
-                      ->then->set_attribute(href => (sprintf '/source/%s', $data->{source}{slug}))
+                    my $is_event = $data->{type} eq 'event';
+                    for my $breadcrumb ('author', $is_event ? 'location' : 'category', 'source') {
+                        $z = $z
+                          ->select("a.$breadcrumb")->replace_content($data->{$breadcrumb}{name})
+                          ->then->set_attribute(href => (sprintf '/%s/%s',
+                            $breadcrumb, $data->{$breadcrumb}{slug}))
+                    }
+                    $z;
                 }
             } @data,
         ])
