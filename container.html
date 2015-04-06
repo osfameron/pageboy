@@ -1,0 +1,211 @@
+<!doctype html>
+<meta charset="utf-8" />
+
+<link href='http://fonts.googleapis.com/css?family=Cabin+Sketch' rel='stylesheet' type='text/css'>
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
+
+<style>
+    header {
+        margin-top: 4em;
+        margin-bottom: 2em;
+        padding: 0;
+    }
+
+    nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 100%;
+        background: #cc93aa;
+        background: #999966;
+    }
+    nav ul {
+        padding: 0;
+        margin: 0.5rem;
+    }
+    nav li {
+        margin: 0;
+        padding: 0;
+        padding-left: 2em;
+        display: inline-block;
+        list-style: none;
+        color: white;
+        font-size: 1.5em;
+    }
+
+    h1 {
+        font-size: 10em;
+        margin: 0;
+    }
+    h1, h2, h3, h4 {
+        font-family: 'Cabin Sketch', cursive;
+    }
+    a, a:hover, a:link {
+        color: #3399aa;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    dialog#search-dialog {
+        /* unsure if dialog is the best thing to use here... as by default it
+        // sets a whole host of stylings we now have to override...
+        */
+
+        background: inherit;
+        display: block;
+        position: static;
+        border: none;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 2em;
+    }
+
+    #search-box {
+        margin-bottom: 0.5em;
+    }
+    #search-box input {
+        display: inline-block;
+        margin: 0;
+        padding: 0.25em;
+        font-size: 2.5em;
+        border: solid 1px black;
+    }
+    input#search {
+        width: 34.0rem;
+        border-radius: 0.5em 0 0 0.5em;
+    }
+    input#search-btn {
+        background: #d8a114 url('/images/user_search.png') no-repeat border-box center;
+        margin-left: -5px;
+        width: 4.5rem;
+        border-radius: 0 0.5em 0.5em 0;
+    }
+
+    #search-tools select {
+        width: 38.5rem;
+    }
+    #search-tools .select2-selection {
+        padding: 0em;
+        margin: 0em;
+        border: 0;
+        // background: inherit;
+        font-size: 2em;
+    }
+
+    article {
+        background: rgba(0,0,0,0.15);
+        padding: 1em;
+        border-radius: 0.5em;
+        margin-bottom: 1em;
+    }
+    article.event {
+        background: rgba(255,0,0,0.15);
+    }
+    article.media {
+        background: rgba(0,255,0,0.15);
+    }
+    article.post {
+        background: rgba(0,0,255,0.15);
+    }
+    article img.featured {
+        position: relative;
+        top: 1em;
+        right: 1em;
+        float: right;
+        width: 100px;
+        overflow: hidden;
+        border: solid 2px gray;
+        border-radius: 0.25em;
+    }
+    article h3 {
+        margin-top: 0;
+    }
+    article p {
+        margin-bottom: 0;
+    }
+    article h3 .slash {
+        color: #aa0;
+    }
+    body {
+        background-color: #fac336 ;
+    }
+    main, h1 {
+        width: 40rem;
+        margin: 0 auto;
+    }
+</style>
+
+<script type="text/javascript">
+
+function isPrefix (a, b) {
+    return b.substring(0, a.length + 1) == a + '-';
+}
+
+$(function () {
+    var $locations = $('select');
+
+    $('#search-switch').click( function () {
+        $('.location-summary').hide();
+        $('#search-tools').show();
+        $locations.select2('open');
+    });
+    $locations.select2({
+        placeholder: $locations.attr('placeholder')
+    });
+
+    var locations = $locations.val();
+
+    $('select').change(function (e) {
+        var obj = $(this);
+        var val = obj.val() || [];
+
+        var new_items = $(val).not(locations).get();
+
+        var last;
+        var items = $.grep(val, function (v) {
+            if (isPrefix('tool', v)) {
+                console.log('Invoked tool (TODO)', v);
+                return false;
+            }
+
+            // if we've specialized a tag, e.g. a *new* tag is prefixed by this
+            // old tag, then remove old one
+            var specialized = $.grep(new_items, function (n) { return isPrefix(v, n); });
+            if (specialized.length) { return false; }
+
+            if (last && isPrefix(last, v)) {
+                return false;
+            }
+
+            last = v;
+            return true;
+        });
+
+        if (items.join(',') != val.join(',')) {
+            obj.val(items).trigger('change');
+            locations = items;
+        }
+    });
+});
+</script>
+
+<title>PageBoy</title>
+
+<nav>
+    <ul>
+        <li> My authors
+        <li> Blog
+        <li> About us
+        <li> Help
+        </ul>
+</nav>
+
+<header>
+<h1>PageBoy</h1>
+</header>
+
+<main />
