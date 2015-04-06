@@ -9,15 +9,45 @@
 
 <style>
     header {
+        margin-top: 4em;
         margin-bottom: 2em;
         padding: 0;
     }
+
+    nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        width: 100%;
+        background: #cc93aa;
+        background: #999966;
+    }
+    nav ul {
+        padding: 0;
+        margin: 0.5rem;
+    }
+    nav li {
+        margin: 0;
+        padding: 0;
+        padding-left: 2em;
+        display: inline-block;
+        list-style: none;
+        color: white;
+        font-size: 1.5em;
+    }
+
     h1 {
         font-size: 10em;
         margin: 0;
     }
     h1, h2, h3, h4 {
         font-family: 'Cabin Sketch', cursive;
+    }
+    a, a:hover, a:link {
+        color: #3399aa;
+        font-weight: bold;
+        text-decoration: none;
     }
 
     dialog#search-dialog {
@@ -55,14 +85,15 @@
         border-radius: 0 0.5em 0.5em 0;
     }
 
-    #search-tools label {
-        width: 4rem;
-    }
-
     #search-tools select {
-        width: 30rem;
+        width: 38.5rem;
     }
     #search-tools .select2-selection {
+        padding: 0em;
+        margin: 0em;
+        border: 0;
+        // background: inherit;
+        font-size: 2em;
     }
 
     article {
@@ -101,6 +132,8 @@
     }
     body {
         background-color: #fac336 ;
+    }
+    main, h1 {
         width: 40rem;
         margin: 0 auto;
     }
@@ -113,10 +146,13 @@ function isPrefix (a, b) {
 }
 
 $(function () {
-    $('#search-box input#search').focus( function () {
-        $('#search-tools').show();
-    });
     var $locations = $('select');
+
+    $('#search-switch').click( function () {
+        $('.location-summary').hide();
+        $('#search-tools').show();
+        $locations.select2('open');
+    });
     $locations.select2({
         placeholder: $locations.attr('placeholder')
     });
@@ -159,6 +195,15 @@ $(function () {
 
 <title>PageBoy</title>
 
+<nav>
+    <ul>
+        <li> My authors
+        <li> Blog
+        <li> About us
+        <li> Help
+        </ul>
+</nav>
+
 <header>
 <h1>PageBoy</h1>
 </header>
@@ -168,9 +213,14 @@ $(function () {
         <div id="search-box">
             <input type="text" id="search" placeholder="Search for an author...">
             <input type="submit" id="search-btn" value=" ">
+            <div class="location-summary">
+                Focus on
+                    Liverpool
+                <a id="search-switch" href="#">(change)</a>
+            </div>
         </div>
         <div id="search-tools" style="display:none">
-            <label for="location">My locations:</label>
+            <!-- <label for="location">My locations:</label> -->
             <select id="location" multiple size="8" placeholder="select the locations I'm interested in">
                 <option value="uk">UK</option>
                 <option value="uk-nw">North West</option>
