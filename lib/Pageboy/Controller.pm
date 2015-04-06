@@ -69,7 +69,7 @@ sub index {
         },
     );
     return $self->render_html('index.html', sub {
-        $_->select('#article-template')->repeat_content([
+        $_->select('article')->repeat([
             map {
                 my $data = $_;
                 my $is_event = $data->{type} eq 'event';
