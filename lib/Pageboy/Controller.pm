@@ -25,7 +25,7 @@ sub render_html {
     my $container = $self->container;
     my $content = HTML::Zoom->from_html(path($template)->slurp);
     if ($fn) {
-        $content = $fn->($content);
+        $content = $content->apply($fn);
     }
     my $html = $container
         ->select('main')
@@ -44,7 +44,51 @@ sub respond_html {
 
 sub index {
     my ($self, $r) = @_;
-    return $self->render_html('index.html'); # no fn
+
+    my @data = (
+        {
+            author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
+            type => 'event',
+            location => { name => 'Liverpool', slug => 'liverpool' },
+            source => { name => 'Waterstones', slug => 'waterstones' },
+            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+        },
+        {
+            author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
+            type => 'media',
+            category => { name => 'Podcast', slug => 'podcast' },
+            source => { name => 'Guardian', slug => 'guardian' },
+            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+        },
+        {
+            author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
+            type => 'media',
+            category => { name => 'Article', slug => 'article' },
+            source => { name => 'Guardian', slug => 'guardian' },
+            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+        },
+    );
+    return $self->render_html('index.html', sub {
+        $_->select('#article-template')->repeat_content([
+            map {
+                my $data = $_;
+                my $is_event = $data->{type} eq 'event';
+                my $cat_or_loc = $is_event ? $data->{location} : $data->{category};
+                sub {
+                    $_->select('article')->set_attribute(class => $data->{type})
+                      ->select('a.author')->replace_content($data->{author}{name})
+                      ->then->set_attribute(href => (sprintf '/author/%s', $data->{author}{slug}))
+
+                      ->select('a.category')->replace_content($cat_or_loc->{name})
+                      ->then->set_attribute(href => (sprintf '/%s/%s', 
+                            $is_event ? 'location' : 'category', $cat_or_loc->{slug}))
+
+                      ->select('a.source')->replace_content($data->{source}{name})
+                      ->then->set_attribute(href => (sprintf '/source/%s', $data->{source}{slug}))
+                }
+            } @data,
+        ])
+    });
 }
 
 1;
