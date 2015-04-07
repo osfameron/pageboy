@@ -76,7 +76,7 @@ sub index {
                     my $z = $_->select('article')->set_attribute(class => $data->{type});
 
                     my $is_event = $data->{type} eq 'event';
-                    for my $breadcrumb ('author', $is_event ? 'location' : 'category', 'source') {
+                    for my $breadcrumb ('author', $is_event ? 'location' : 'category') {
                         $z = $z
                           ->select("a.$breadcrumb")->replace_content($data->{$breadcrumb}{name})
                           ->then->set_attribute(href => (sprintf '/%s/%s',

@@ -8,6 +8,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/js/select2.min.js"></script>
 
 <style>
+    html { box-sizing: border-box; }
+    *, *:before, *.after { box-sizing: inherit; }
+    * {
+        font-family: 'Times New Roman', serif
+    }
+
     header {
         margin-top: 4em;
         margin-bottom: 2em;
@@ -97,8 +103,9 @@
     }
 
     article {
+        display: table;
         background: rgba(0,0,0,0.15);
-        padding: 1em;
+        padding: 0.25em;;
         border-radius: 0.5em;
         margin-bottom: 1em;
     }
@@ -111,15 +118,14 @@
     article.post {
         background: rgba(0,0,255,0.15);
     }
-    article img.featured {
-        position: relative;
-        top: 1em;
-        right: 1em;
-        float: right;
+    img.featured {
         width: 100px;
-        overflow: hidden;
-        border: solid 2px gray;
-        border-radius: 0.25em;
+    }
+    article > div {
+        display: table-cell;
+        padding: 0.25rem;
+        margin: 0;
+        vertical-align: top;
     }
     article h3 {
         margin-top: 0;
@@ -136,6 +142,41 @@
     main, h1 {
         width: 40rem;
         margin: 0 auto;
+    }
+
+    time {
+        display: block;
+        width: 2.5rem;
+        background: #ff6666;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-variant: small-caps;
+        font-size: 0.8em;
+    }
+    time * {
+        font-family: 'Gill Sans MT', 'Gill Sans', sans;
+    }
+    time div {
+        padding: 0.125em;
+        margin: 0;
+    }
+    time .month, time .year {
+        background: cornsilk;
+        color: grey;
+        width: 100%;
+        margin: 0;
+    }
+    time .month {
+        font-size: 1.2em;
+    }
+    time .day--number {
+        font-size: 2em;
+        display: block;
+        padding: 0; margin: 0;
+    }
+    time .day--name {
+        padding: 0; margin: 0;
     }
 </style>
 
