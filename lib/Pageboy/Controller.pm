@@ -52,6 +52,7 @@ sub index {
             location => { name => 'Liverpool', slug => 'liverpool' },
             source => { name => 'Waterstones', slug => 'waterstones' },
             description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+            date => '7 Apr 2015',
         },
         {
             author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
@@ -59,6 +60,7 @@ sub index {
             category => { name => 'Podcast', slug => 'podcast' },
             source => { name => 'Guardian', slug => 'guardian' },
             description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+            date => '7 Apr 2015',
         },
         {
             author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
@@ -66,9 +68,11 @@ sub index {
             category => { name => 'Article', slug => 'article' },
             source => { name => 'Guardian', slug => 'guardian' },
             description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+            date => '7 Apr 2015',
         },
     );
     return $self->render_html('index.html', sub {
+        my $last_date = '';
         $_->select('article')->repeat([
             map {
                 my $data = $_;
@@ -82,6 +86,10 @@ sub index {
                           ->then->set_attribute(href => (sprintf '/%s/%s',
                             $breadcrumb, $data->{$breadcrumb}{slug}))
                     }
+                    if ($last_date eq $data->{date}) {
+                        $z = $z->select('time')->set_attribute(style => 'visibility: hidden');
+                    }
+                    $last_date = $data->{date};
                     $z;
                 }
             } @data,
