@@ -1,7 +1,8 @@
 <!doctype html>
 <meta charset="utf-8" />
 
-<link href='http://fonts.googleapis.com/css?family=Cabin+Sketch' rel='stylesheet' type='text/css'>
+<!-- <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch' rel='stylesheet' type='text/css'> -->
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.2/css/select2.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -46,47 +47,59 @@
     h1 {
         font-size: 10em;
         margin: 0;
+        color: orange;
+        text-shadow: 1px 1px black;
     }
     h1, h2, h3, h4 {
-        font-family: 'Cabin Sketch', cursive;
+        font-family: 'Lobster', cursive;
+        font-weight: bold;
     }
     a, a:hover, a:link {
-        color: #3399aa;
+        color: white;
+        text-shadow: 1px 1px black;
         font-weight: bold;
         text-decoration: none;
     }
 
-    dialog#search-dialog {
-        /* unsure if dialog is the best thing to use here... as by default it
-        // sets a whole host of stylings we now have to override...
+    #search-dialog {
+        /* would mark this up as <dialog>, but by default that
+        // sets a whole host of stylings we now have to override... 
+        // (display, position, background:transparent)
+        // and doesn't appear to contain the following <div>, bah.
         */
 
-        background: inherit;
         display: block;
         position: static;
+        background: rgba(100,100,100,0.7);
         border: none;
-        padding: 0;
+        border-radius: 0.5em;
+
+        padding: 1em;
         margin: 0;
         margin-bottom: 2em;
+
+        color: orange;
+        font-size: 1.5rem;
+        text-shadow: 1px 1px black;
     }
 
     #search-box {
         margin-bottom: 0.5em;
     }
-    #search-box input {
+    #search-box > input {
         display: inline-block;
         margin: 0;
         padding: 0.25em;
-        font-size: 2.5em;
+        font-size: 1.8em;
         border: solid 1px black;
     }
     input#search {
-        width: 34.0rem;
+        width: 30.0rem;
         border-radius: 0.5em 0 0 0.5em;
     }
     input#search-btn {
         background: #d8a114 url('/images/user_search.png') no-repeat border-box center;
-        margin-left: -5px;
+        margin-left: -8px;
         width: 4.5rem;
         border-radius: 0 0.5em 0.5em 0;
     }
@@ -103,29 +116,39 @@
     }
 
     article {
-        display: table;
         background: rgba(0,0,0,0.15);
         padding: 0.25em;;
         border-radius: 0.5em;
         margin-bottom: 1em;
     }
     article.event {
-        background: rgba(255,0,0,0.15);
+        // background: rgba(255,0,0,0.65);
+        background-color: #fac336;
     }
     article.media {
-        background: rgba(0,255,0,0.15);
+        // background: rgba(0,255,0,0.65);
+        background-color: #c3fa36;
     }
     article.post {
-        background: rgba(0,0,255,0.15);
+        // background: rgba(0,0,255,0.65);
+        background-color: #fac336;
     }
     img.featured {
         width: 100px;
     }
     article > div {
-        display: table-cell;
+        display: inline-block;
         padding: 0.25rem;
         margin: 0;
         vertical-align: top;
+    }
+    article > div:nth-child(2) {
+        position: relative;
+        left: 5px;
+        width: 28rem;
+    }
+    article > div:nth-child(3) {
+        width: 5rem;
     }
     article h3 {
         margin-top: 0;
@@ -137,7 +160,13 @@
         color: #aa0;
     }
     body {
+        background-size: cover;
         background-color: #fac336 ;
+        background-color: black;
+    }
+    main {
+        padding: 1rem;
+        display: block;
     }
     main, h1 {
         width: 40rem;
@@ -145,9 +174,11 @@
     }
 
     time {
-        display: block;
+        position: relative;
+        left: -4rem;
+        display: inline-block;
         width: 2.5rem;
-        background: #ff6666;
+        background: orange; /* #ff6666; */
         color: white;
         text-align: center;
         font-weight: bold;

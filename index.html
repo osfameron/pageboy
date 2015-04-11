@@ -1,12 +1,12 @@
-<dialog id="search-dialog" open>
+<div id="search-dialog" open>
     <div id="search-box">
         <input type="text" id="search" placeholder="Search for an author...">
         <input type="submit" id="search-btn" value=" ">
-        <div class="location-summary">
-            Focus on
-                Liverpool
-            <a id="search-switch" href="#">(change)</a>
-        </div>
+    </div>
+    <div class="location-summary">
+        Focus on
+            Liverpool
+        <a id="search-switch" href="#">(change)</a>
     </div>
     <div id="search-tools" style="display:none">
         <!-- <label for="location">My locations:</label> -->
@@ -19,19 +19,17 @@
             <option value="tool-search">search...</option>
         </select>
     </div>
-</dialog>
+</div>
 
 <article class="event">
-    <div>
-        <time datetime="2015-04-07">
-            <div class="month"> Apr </div>
-            <div class="day">
-                <span class="day--number"> 7 </span>
-                <span class="day--name"> Tue </span>
-            </div>
-            <div class="year"> 2015 </div>
-        </time>
-    </div>
+    <time datetime="2015-04-07">
+        <div class="month"> Apr </div>
+        <div class="day">
+            <span class="day--number"> 7 </span>
+            <span class="day--name"> Tue </span>
+        </div>
+        <div class="year"> 2015 </div>
+    </time>
     <div>
         <h3> 
             <a class="author" href="/author/owen-jones">Owen Jones</a>
