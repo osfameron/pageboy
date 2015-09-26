@@ -1,14 +1,24 @@
-package Pageboy::Controller;
-use Moose;
+use strict; use warnings;
 
-has view => (
-    is => 'ro',
-);
+use Pageboy::Test::Controller;
 
-sub index {
-    my ($self, $r) = @_;
+use Test::More;
+use Plack::Test;
+use HTTP::Request::Common;
 
-    my @data = (
+use Data::Dumper;
+
+my $app = Pageboy::Test::Controller->new;
+
+test_psgi $app->to_app, sub {
+    my $cb = shift;
+    my $res = $cb->(GET '/');
+
+    is $res->content, ''; # sanity check that mock suppresses view output
+
+    is $app->view->template, 'index.html';
+    is_deeply $app->view->data,
+    [
         {
             author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },
             type => 'event',
@@ -33,9 +43,7 @@ sub index {
             description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
             date => '7 Apr 2015',
         },
-    );
+    ];
+};
 
-    return $self->view->render_html('index.html', \@data);
-}
-
-1;
+done_testing;
