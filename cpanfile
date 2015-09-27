@@ -5,6 +5,7 @@ requires 'Plack::Middleware::Static';
 requires 'Path::Tiny';
 requires 'Dir::Self';
 requires 'HTML::Zoom';
+requires 'MooseX::AttributeShortcuts';
 
 requires 'DBD::Pg';
 requires 'DBIx::Class';
@@ -19,3 +20,6 @@ requires 'Test::PostgreSQL';
 requires 'Test::Exception';
 requires 'Test::Pretty';
 requires 'Test::DBIx::Class';
+
+requires 'MooX::Cmd';
+requires 'MooX::Options';
