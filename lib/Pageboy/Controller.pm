@@ -9,6 +9,10 @@ has view => (
     is => 'ro',
 );
 
+has model => (
+    is => 'ro',
+);
+
 sub index ($self, $r) {
 
     my @data = (

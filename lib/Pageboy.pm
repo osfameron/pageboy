@@ -14,6 +14,12 @@ has view => (
     infer => 1,
 );
 
+has model => (
+    is    => 'ro',
+    isa   => 'Pageboy::Model',
+    infer => 1,
+);
+
 router as {
     route '/' => 'root.index';
 
