@@ -1,12 +1,15 @@
+use 5.020;
 package Pageboy::Controller;
 use Moose;
+
+no warnings 'experimental::signatures';
+use feature 'signatures';
 
 has view => (
     is => 'ro',
 );
 
-sub index {
-    my ($self, $r) = @_;
+sub index ($self, $r) {
 
     my @data = (
         {
@@ -35,7 +38,11 @@ sub index {
         },
     );
 
-    return $self->view->render_html('index.html', \@data);
+    return $self->render(\@data);
+}
+
+sub render ($self, $data) {
+    return $self->view->render_html('index.html', $data);
 }
 
 1;
