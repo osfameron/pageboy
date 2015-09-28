@@ -6,9 +6,9 @@ use MooX::Options protect_argv => 0;
 
 use feature 'say';
 
-option setup_fixtures => (
+option setup_demo => (
     is => 'ro',
-    doc => 'use test fixtures to deployment',
+    doc => 'use sample data to deployment',
 );
 
 sub execute {
@@ -19,13 +19,9 @@ sub execute {
     my $db = $app->model->db;
     $db->deploy;
 
-    if ($self->setup_fixtures) {
-        say 'Setting up fixtures';
-        # The functions to add fixtures are in the test module
-        my $test_app = $chain->[0]->test_app;
-        $test_app->test_app->setup_fixtures($db);
-        say 'You can run tests against this with:';
-        say '    bin/manage test --use-main-db';
+    if ($self->setup_demo) {
+        say 'Setting up demo data';
+        $app->model->setup_demo();
     }
 }
 

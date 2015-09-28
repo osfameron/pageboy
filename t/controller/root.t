@@ -14,7 +14,7 @@ test_psgi $app->to_app, sub {
     my $cb = shift;
     my $res = $cb->(GET '/');
 
-    is $res->content, ''; # sanity check that mock suppresses view output
+    is $res->content, '', 'sanity check that mock suppresses view output';
 
     is $app->view->template, 'index.html';
     is_deeply $app->view->data,

@@ -36,7 +36,7 @@ column category => {
     # should be enum/join:  Article, Podcast, etc.
     data_type => 'varchar', 
     size => 32,
-    is_nullable => 0,
+    is_nullable => 1,
 };
 
 column source => { 
@@ -50,7 +50,7 @@ column location => {
     # should be join:  Liverpool etc.
     data_type => 'varchar', 
     size => 32,
-    is_nullable => 0,
+    is_nullable => 1,
 };
 
 column scheduled_datetime => {

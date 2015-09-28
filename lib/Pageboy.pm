@@ -5,7 +5,7 @@ has root => (
     is    => 'ro',
     isa   => 'Pageboy::Controller',
     infer => 1,
-    dependencies => ['view'],
+    dependencies => ['view', 'model'],
 );
 
 has view => (
