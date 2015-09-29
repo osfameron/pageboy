@@ -15,11 +15,13 @@ requires 'Test::PostgreSQL';
 requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::TimeStamp';
 
+requires 'MooX::Cmd';
+requires 'MooX::Options';
+
 requires 'Test::Most';
 requires 'Test::PostgreSQL';
 requires 'Test::Exception';
 requires 'Test::Pretty';
 requires 'Test::DBIx::Class';
+requires 'Test::BDD::Cucumber';
 
-requires 'MooX::Cmd';
-requires 'MooX::Options';
