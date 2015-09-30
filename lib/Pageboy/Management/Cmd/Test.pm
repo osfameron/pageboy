@@ -28,7 +28,7 @@ sub execute {
         $ENV{PERL_TEST_PRETTY_ENABLED}++; 
         
         system( 'perl',
-            '-MTest::Pretty', # run pretty tests
+            # '-MTest::Pretty', # run pretty tests # doesn't play nice with BDD::Cucumber
             '-Ilib',          # add ./lib
             '-It/lib',        # add ./t/lib
             @$args,

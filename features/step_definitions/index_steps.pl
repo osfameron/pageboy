@@ -1,13 +1,16 @@
 use strict; use warnings;
  
 use Test::More;
-use Plack::Test;
+use Test::WWW::Mechanize::PSGI;
 use HTTP::Request::Common;
 use Pageboy::Test::Controller;
 use Test::BDD::Cucumber::StepFile;
 
 Given qr/^an app .*/, sub {
-    S->{app} = Pageboy::Test::Controller->new;
+    S->{app} = my $app = Pageboy::Test::Controller->new;
+    S->{mech} = Test::WWW::Mechanize::PSGI->new(
+        app => $app->to_app,
+    );
     # TODO, some fixtures
 };
 
@@ -15,18 +18,16 @@ Given qr/no geolocation/, sub {
     # TODO something here
 };
 
+
 When qr/I visit the landing page.*/, sub {
-    test_psgi S->{app}->to_app, sub {
-        my $cb = shift;
-        my $res = $cb->(GET '/');
-        S->{res} = $res;
-    };
+    S->{mech}->get_ok('/');
 };
 
 Then qr/I should see some events.*/, sub {
-    my $res = S->{res};
-    ok $res->is_success, 'Request was successful';
-
     my $data = S->{app}->view->data;
     ok scalar (@$data), 'There is some data';
 };
+
+Given qr/.*/, sub { fail 'step not defined' };
+When  qr/.*/, sub { fail 'step not defined' };
+Then  qr/.*/, sub { fail 'step not defined' };

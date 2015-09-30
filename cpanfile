@@ -24,4 +24,5 @@ requires 'Test::Exception';
 requires 'Test::Pretty';
 requires 'Test::DBIx::Class';
 requires 'Test::BDD::Cucumber';
+requires 'Test::WWW::Mechanize::PSGI';
 
