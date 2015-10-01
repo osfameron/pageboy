@@ -8,7 +8,8 @@ use HTTP::Request::Common;
 
 use Data::Dumper;
 
-my $app = Pageboy::Test::Controller->new;
+my $app = Pageboy::Test::Controller->new();
+$app->model->setup_fixtures;
 
 my $mech = Test::WWW::Mechanize::PSGI->new( app => $app->to_app );
 
@@ -45,4 +46,5 @@ is_deeply $app->view->data,
     },
 ];
 
+$app->teardown;
 done_testing;

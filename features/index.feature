@@ -4,7 +4,7 @@ Feature: The index page
     To see upcoming author events in my area
 
     Background:
-        Given an app with some fixtures
+        Given some events
 
     Scenario: basic
         Given no geolocation

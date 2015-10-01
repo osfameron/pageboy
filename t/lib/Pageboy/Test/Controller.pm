@@ -1,6 +1,6 @@
 package Pageboy::Test::Controller;
 use OX;
-extends 'Pageboy';
+extends 'Pageboy::Test';
 
 =head1 NAME
 

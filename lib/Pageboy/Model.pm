@@ -8,6 +8,7 @@ no warnings 'experimental::signatures';
 use feature 'signatures';
 
 use Pageboy::Schema;
+use Pageboy::Model::Fixtures;
 
 has dsn => (
     is => 'lazy',
@@ -25,6 +26,13 @@ has db => (
     is => 'lazy',
     default => sub {
         Pageboy::Schema->connect(@{ shift->connect_info });
+    }
+);
+
+has fixtures => (
+    is => 'lazy',
+    default => sub {
+        Pageboy::Model::Fixtures->new();
     }
 );
 
@@ -60,41 +68,14 @@ sub make_name_and_slug ($self, $record, $field) {
     });
 }
 
-sub setup_demo ($self) {
-    $self->events->populate([
-        {
-            author => 'Owen Jones',
-            author_photo => 'owen-jones-waterstones.jpeg',
-            type => 'event',
-            location => 'Liverpool',
-            source => 'Waterstones',
-            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
-            scheduled_datetime => '2015-04-07',
-        },
-        {
-            author => 'Owen Jones',
-            author_photo => 'owen-jones-waterstones.jpeg',
-            type => 'media',
-            category => 'Podcast',
-            source => 'Guardian',
-            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
-            scheduled_datetime => '2015-04-07',
-        },
-        {
-            author => 'Owen Jones',
-            author_photo => 'owen-jones-waterstones.jpeg',
-            type => 'media',
-            category => 'Article',
-            source => 'Guardian',
-            description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
-            scheduled_datetime => '2015-04-07',
-        },
-    ]);
-}
 
 sub slugify ($self, $text) {
     $text =~s/\s+/-/g;
     return lc $text;
+}
+
+sub setup_fixtures ($self) {
+    $self->fixtures->setup_fixtures($self);
 }
 
 1;

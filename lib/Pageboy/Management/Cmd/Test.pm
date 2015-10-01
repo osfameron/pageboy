@@ -4,11 +4,6 @@ use Moo;
 use MooX::Cmd;
 use MooX::Options protect_argv => 0;
 
-option use_main_db => (
-    is => 'ro',
-    doc => 'Use main db instead of deploying temporary one',
-);
-
 has test_app => (
     is => 'lazy',
     default => sub {
@@ -20,7 +15,7 @@ has test_app => (
 sub execute {
     my ( $self, $args ) = @_;
 
-    local $ENV{DOES_TEST_DSN} = $self->test_app->app_dsn if $self->use_main_db;
+    local $ENV{TEST_DSN} = $self->test_app->model->dsn;
 
     if (@$args and -f $args->[-1]) {
         # oddly -t STDOUT is suppressed at some point in exec'd test, so

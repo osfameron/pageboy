@@ -20,7 +20,7 @@ has test_app => (
     default => sub {
         my $self = shift;
         load lib => 't/lib';
-        my $test_class = 'Pageboy::Test::Controller';
+        my $test_class = 'Pageboy::Test';
         load $test_class;
         $test_class->new;
     },
