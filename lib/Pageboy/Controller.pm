@@ -15,7 +15,10 @@ has model => (
 
 sub index ($self, $r) {
 
-    my $data = $self->model->list_events();
+    my $location = $r->param('location');
+    my $params = $location ? { location => $location } : undef;
+
+    my $data = $self->model->list_events($params);
 
     return $self->render($data);
 }

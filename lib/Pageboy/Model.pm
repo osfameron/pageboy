@@ -40,7 +40,11 @@ sub events ($self) {
     $self->db->resultset('Event');
 }
 
-sub list_events ($self) {
+sub list_events ($self, $params={}) {
+    my $rs = $self->events;
+    if (my $location = $params->{location}) {
+        $rs = $rs->search({ location => $location });
+    }
     return [
         map {
             +{
@@ -56,7 +60,7 @@ sub list_events ($self) {
                 description => $_->description,
                 date => '7 Apr 2015',
             }
-        } $self->events->all
+        } $rs->all
     ]
 }
 
