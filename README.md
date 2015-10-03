@@ -1,9 +1,24 @@
 # pageboy
 Hub for curating and subscribing to event feeds
 
+## Installation
+
+Linux dependencies:
+
+    TODO document.  postgresql, libexpat1-dev etc.
+
+Perl dependencies
+
+    cpanm --installdeps .
+
+GeoIP database
+
+    - get GeoLite2 City from http://dev.maxmind.com/geoip/geoip2/geolite2/
+    - gunzip into data/
+
 ## Run tests
 
-    prove -Ilib -It/lib -r
+    bin/manage test
 
 ## Random notes
 

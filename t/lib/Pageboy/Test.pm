@@ -5,6 +5,7 @@ extends 'Pageboy';
 use MooseX::AttributeShortcuts;
 use Pageboy::Model;
 use Test::PostgreSQL;
+use Pageboy::Test::Geo;
 
 no warnings 'experimental::signatures';
 use feature 'signatures';
@@ -35,6 +36,10 @@ has 'model' => (
         return $model;
     },
     infer => 0
+);
+
+has '+geo' => (
+    default => sub { Pageboy::Test::Geo->new },
 );
 
 has test_postgresql => (

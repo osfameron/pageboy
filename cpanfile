@@ -15,6 +15,8 @@ requires 'Test::PostgreSQL';
 requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::TimeStamp';
 
+requires 'GeoIP2';
+
 requires 'MooX::Cmd';
 requires 'MooX::Options';
 

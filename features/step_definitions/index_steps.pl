@@ -29,8 +29,24 @@ Given qr/^some upcoming events in*/, sub {
     }
 };
 
-Given qr/I am in (?<location>\w+)/, sub { 
-    S->{location} = $+{location};
+Given qr/I am in (?<location>\w+)$/, sub { 
+    my $location = S->{location} = $+{location};
+};
+
+Given qr/I am in (?<location>\w+) \(based on my IP address\)/, sub { 
+    my $location = $+{location};
+    my $ip = {
+        Manchester => '130.88.98.239', # man.ac.uk
+        Liverpool  => '138.253.13.50', # liv.ac.uk
+        Amsterdam  => '145.18.12.36',  # uva.nl
+    }->{$location}
+        or die "No IP address stored for $location";
+
+    S->{app}->geo->set_ip($ip)
+};
+
+Given qr/I have an invalid or local IP address/, sub {
+    S->{app}->geo->set_ip('127.0.0.1')
 };
 
 When qr/I visit the landing page.*/, sub {

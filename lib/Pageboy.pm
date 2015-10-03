@@ -5,7 +5,7 @@ has root => (
     is    => 'ro',
     isa   => 'Pageboy::Controller',
     infer => 1,
-    dependencies => ['view', 'model'],
+    dependencies => ['view', 'model', 'geo'],
 );
 
 has view => (
@@ -17,6 +17,12 @@ has view => (
 has model => (
     is    => 'ro',
     isa   => 'Pageboy::Model',
+    infer => 1,
+);
+
+has geo => (
+    is    => 'ro',
+    isa   => 'Pageboy::Geo',
     infer => 1,
 );
 

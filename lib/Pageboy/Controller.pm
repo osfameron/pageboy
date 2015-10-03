@@ -13,9 +13,14 @@ has model => (
     is => 'ro',
 );
 
+has geo => (
+    is => 'ro',
+);
+
 sub index ($self, $r) {
 
     my $location = $r->param('location');
+    $location //= $self->geo->get_location_from_ip($r);
     my $params = $location ? { location => $location } : undef;
 
     my $data = $self->model->list_events($params);
