@@ -21,7 +21,7 @@ sub execute {
 
     if ($self->setup_demo) {
         say 'Setting up demo data';
-        $app->model->setup_fixtures;
+        $app->setup_fixtures;
     }
 }
 

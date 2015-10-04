@@ -50,10 +50,17 @@ sub render_root_fn {
                           ->then->set_attribute(href => (sprintf '/%s/%s',
                             $breadcrumb, $data->{$breadcrumb}{slug}))
                     }
-                    if ($last_date eq $data->{date}) {
+                    my $date = $data->{date};
+                    $z = $z->select('time')
+                        ->set_attribute(datetime => $date->strftime('%F'))
+                        ->select('.month')->replace_content( $date->strftime('%b') )
+                        ->select('.day--number')->replace_content( $date->strftime('%d') )
+                        ->select('.day--name')->replace_content( $date->strftime('%a') )
+                        ->select('.year')->replace_content( $date->strftime('%Y') );
+                    if ($last_date && ($last_date == $date)) {
                         $z = $z->select('time')->set_attribute(style => 'visibility: hidden');
                     }
-                    $last_date = $data->{date};
+                    $last_date = $date;
                     $z;
                 }
             } @$data,

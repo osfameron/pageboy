@@ -2,15 +2,18 @@ Feature: The index page
     As a reader
     I want to look at the Pageboy landing page
     To see upcoming author events in my area
+    (And only upcoming events)
 
     Background:
-        Given some upcoming events in
-            | location      |
-            | Liverpool  |
-            | Liverpool  |
-            | Liverpool  |
-            | Manchester |
-            | Manchester |
+        Given some events in
+            | location   | when    |
+            | Liverpool  | -1 days |
+            | Manchester | -1 days |
+            | Liverpool  | +1 days |
+            | Manchester | +1 days |
+            | Liverpool  | +2 days |
+            | Manchester | +2 days |
+            | Liverpool  | +3 days |
 
     Scenario: Liverpool
         Given I am in Liverpool (based on my IP address)

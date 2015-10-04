@@ -17,11 +17,19 @@ has geo => (
     is => 'ro',
 );
 
+has time => (
+    is    => 'ro',
+);
+
 sub index ($self, $r) {
 
     my $location = $r->param('location');
     $location //= $self->geo->get_location_from_ip($r);
-    my $params = $location ? { location => $location } : undef;
+
+    my $params = {
+        scheduled_after => $self->time,
+        $location ? ( location => $location ) : (),
+    };
 
     my $data = $self->model->list_events($params);
 

@@ -38,6 +38,14 @@ has 'model' => (
     infer => 0
 );
 
+has '+time' => (
+    writer => '_time',
+);
+
+sub _time_builder {
+    DateTime->new( year => 2015, month => 10, day => 4 );
+}
+
 has '+geo' => (
     default => sub { Pageboy::Test::Geo->new },
 );

@@ -1,7 +1,9 @@
 use strict; use warnings;
 package Pageboy::Schema::Result::Event;
 
-use DBIx::Class::Candy -autotable => v1;
+use DBIx::Class::Candy
+    -autotable => v1,
+    -components => [qw/ InflateColumn::DateTime /];
  
 primary_column id => {
   data_type => 'int',
