@@ -1,11 +1,13 @@
 package Pageboy;
 use OX;
+use DateTime;
 
 has root => (
     is    => 'ro',
     isa   => 'Pageboy::Controller',
     infer => 1,
-    dependencies => ['view', 'model', 'geo'],
+    lifecycle => 'Request',
+    dependencies => ['view', 'model', 'geo', 'time'],
 );
 
 has view => (
@@ -25,6 +27,16 @@ has geo => (
     isa   => 'Pageboy::Geo',
     infer => 1,
 );
+
+has time => (
+    is    => 'ro',
+    lifecycle => 'Request',
+    builder => '_time_builder',
+);
+
+sub _time_builder {
+    DateTime->now;
+}
 
 router as {
     route '/' => 'root.index';

@@ -16,6 +16,7 @@ requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::TimeStamp';
 
 requires 'GeoIP2';
+requires 'String::Trim';
 
 requires 'MooX::Cmd';
 requires 'MooX::Options';

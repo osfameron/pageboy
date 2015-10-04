@@ -9,6 +9,7 @@ use feature 'signatures';
 
 use Pageboy::Schema;
 use Pageboy::Model::Fixtures;
+use DateTime::Format::Pg;
 
 has dsn => (
     is => 'lazy',
@@ -41,10 +42,14 @@ sub events ($self) {
 }
 
 sub list_events ($self, $params={}) {
-    my $rs = $self->events;
-    if (my $location = $params->{location}) {
-        $rs = $rs->search({ location => $location });
+
+    if (my $dt = delete $params->{scheduled_after}) {
+        $params->{scheduled_datetime} = {
+            '>', DateTime::Format::Pg->format_datetime($dt)
+        };
     }
+
+    my $rs = $self->events->search($params);
     return [
         map {
             +{
@@ -58,7 +63,7 @@ sub list_events ($self, $params={}) {
                 $self->make_name_and_slug($_, 'category'),
                 $self->make_name_and_slug($_, 'source'),
                 description => $_->description,
-                date => '7 Apr 2015',
+                date => $_->scheduled_datetime
             }
         } $rs->all
     ]
@@ -76,10 +81,6 @@ sub make_name_and_slug ($self, $record, $field) {
 sub slugify ($self, $text) {
     $text =~s/\s+/-/g;
     return lc $text;
-}
-
-sub setup_fixtures ($self) {
-    $self->fixtures->setup_fixtures($self);
 }
 
 1;

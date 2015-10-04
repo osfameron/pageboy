@@ -5,6 +5,7 @@ use Test::WWW::Mechanize::PSGI;
 use HTTP::Request::Common;
 use Pageboy::Test::Controller;
 use Test::BDD::Cucumber::StepFile;
+use String::Trim;
 
 Before sub {
     S->{app} = my $app = Pageboy::Test::Controller->new;
@@ -13,20 +14,25 @@ Before sub {
     );
 };
 
-Given qr/^some events.*/, sub {
-    S->{app}->model->setup_fixtures;
-};
-
-Given qr/^some upcoming events in*/, sub {
-    my $model = S->{app}->model;
+Given qr/^some events in*/, sub {
+    my $app = S->{app};
+    my $model = $app->model;
     my $fixtures = $model->fixtures;
+
     for my $datum (@{ C->data }) {
+
         my $location = $datum->{location};
-        # my $area = AREAS->{$location} or die "No such area: $location";
-        $fixtures->create_event($model, {
+        my ($count, $unit) = split /\s+/, trim( $datum->{when} );
+
+        $fixtures->create_event($app, {
             location => $location,
+            scheduled_datetime => [$unit, $count]
         });
     }
+};
+
+Given qr/^some events$/, sub {
+    S->{app}->model->setup_fixtures;
 };
 
 Given qr/I am in (?<location>\w+)$/, sub { 
