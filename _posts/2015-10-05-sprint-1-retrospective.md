@@ -8,9 +8,10 @@ tags: perl ox pageboy
 ---
 
 As I recently got over the exhaustion of new job and flat move, it seemed like
-a good idea to resurrect the Pageboy project (back in April I'd got as far as
-creating a static HTML index page for, and then decomposing it into an
-HTML::Zoom template with some hard-coded sample data.)
+a good idea to resurrect the [Pageboy](https://github.com/osfameron/pageboy)
+project (back in April I'd got as far as creating a static HTML index page for,
+and then decomposing it into an HTML::Zoom template with some hard-coded sample
+data.)
 
 I keep on describing Pageboy as "like Songkick, but for books" which works best
 if you know what Songkick is (and books, I guess.)  Essentially, it's a way to
