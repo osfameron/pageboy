@@ -18,12 +18,8 @@ sub execute {
     local $ENV{TEST_DSN} = $self->test_app->model->dsn;
 
     if (@$args and -f $args->[-1]) {
-        # oddly -t STDOUT is suppressed at some point in exec'd test, so
-        # we override for Test::Pretty's benefit
-        $ENV{PERL_TEST_PRETTY_ENABLED}++; 
         
         system( 'perl',
-            # '-MTest::Pretty', # run pretty tests # doesn't play nice with BDD::Cucumber
             '-Ilib',          # add ./lib
             '-It/lib',        # add ./t/lib
             @$args,
