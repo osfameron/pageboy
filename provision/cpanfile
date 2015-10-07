@@ -27,4 +27,3 @@ requires 'Test::Exception';
 requires 'Test::DBIx::Class';
 requires 'Test::BDD::Cucumber';
 requires 'Test::WWW::Mechanize::PSGI';
-
