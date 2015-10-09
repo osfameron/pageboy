@@ -1,0 +1,13 @@
+  <div class="colophon">
+    <p>
+      <span id="pub-date">Published on {{ page.date | date_to_string }}</span> <span class="separator">&bull;</span>
+    </p>
+{% if front_page %}
+    <a href="{{site.baseurl}}{{ page.url }}#comments">Comment on this post</a>
+{% else %}
+    <div class="disqus" id="comments">
+        {% include disqus.html %}
+    </div>
+{% endif %}
+</div>
+  </div>
