@@ -3,6 +3,7 @@ package Pageboy::Management::Cmd::DeployDB;
 use Moo;
 use MooX::Cmd;
 use MooX::Options protect_argv => 0;
+use Try::Tiny;
 
 use feature 'say';
 
@@ -16,8 +17,21 @@ sub execute {
 
     my $app = $chain->[0]->app;
 
-    my $db = $app->model->db;
-    $db->deploy;
+    try {
+        my $db = $app->model->db;
+        $db->deploy;
+    }
+    catch {
+        say <<"DEPLOY_ERROR";
+There was an error deploying the database.
+
+    $@
+
+You may need to run the following commands: 
+    \$ sudo -u postgres createuser -d vagrant
+    \$ createdb pageboy
+DEPLOY_ERROR
+    };
 
     if ($self->setup_demo) {
         say 'Setting up demo data';
