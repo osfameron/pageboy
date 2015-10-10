@@ -30,6 +30,12 @@ Feature: The index page
         When I visit the landing page
         Then I should see 0 events
 
+    Scenario: Amsterdam
+        Given I am in Amsterdam (based on my IP address)
+        But I have selected Liverpool as my location
+        When I visit the landing page
+        Then I should see 3 events
+
     Scenario: Local IP (e.g. local development or oddities)
         Given I have an invalid or local IP address
         When I visit the landing page

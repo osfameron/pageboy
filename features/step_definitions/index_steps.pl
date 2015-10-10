@@ -35,7 +35,7 @@ Given qr/^some events$/, sub {
     S->{app}->setup_fixtures;
 };
 
-Given qr/I am in (?<location>\w+)$/, sub { 
+Given qr/I have selected (?<location>\w+) as my location$/, sub { 
     my $location = S->{location} = $+{location};
 };
 
