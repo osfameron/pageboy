@@ -3,22 +3,34 @@ Hub for curating and subscribing to event feeds
 
 ## Installation
 
-Linux dependencies:
+Easiest way is to run a VM using Vagrant <https://www.vagrantup.com/>
 
-    TODO document.  postgresql, libexpat1-dev etc.
+    vagrant up
 
-Perl dependencies
-
-    cpanm --installdeps .
-
-GeoIP database
-
-    - get GeoLite2 City from http://dev.maxmind.com/geoip/geoip2/geolite2/
-    - gunzip into data/
+If you don't like Vagrant, have a look at the instructions in the
+supplied Vagrantfile, which includes an inline shell script with
+all details.
 
 ## Run tests
 
     bin/manage test
+
+## Run server
+
+    bin/manage runserver
+
+By default, the app runs on port :5000 on the VM, tunnelled to :5569 on
+your host machine. e.g.
+
+    http://localhost:5569/
+
+## Redeploy database
+
+If you need to recreate the database for any reason:
+
+    dropdb pageboy
+    createdb pageboy
+    bin/manage deploydb --setup_demo
 
 ## Random notes
 

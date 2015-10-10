@@ -48,6 +48,10 @@ Vagrant.configure("2") do |config|
 
       bin/manage test
 
+      sudo -u postgres createuser -d vagrant
+      createdb pageboy
+      bin/manage deploydb --setup_demo
+
       popd
       touch done.update
     fi
