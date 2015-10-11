@@ -69,6 +69,10 @@ sub list_events ($self, $params={}) {
     ]
 }
 
+sub create_event ($self, $data) {
+    $self->events->create($data);
+}
+
 sub make_name_and_slug ($self, $record, $field) {
     my $value = $record->$field or return;
     return ($field => {

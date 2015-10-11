@@ -1,9 +1,10 @@
 package Pageboy;
 use OX;
+use OX::RouteBuilder::REST;
 use DateTime;
 use String::CamelSnakeKebab 'upper_camel_case';
 
-for my $controller (qw{ index }) {
+for my $controller (qw{ index new_event }) {
     my $controller_subclass =
         sprintf 'Pageboy::Controller::%s',
             upper_camel_case($controller);
@@ -51,6 +52,7 @@ sub setup_fixtures {
 
 router as {
     route '/' => 'index.handle';
+    route '/new-event' => 'REST.new_event.handle';
 
     wrap 'Plack::Middleware::Static' => (
         path => literal(sub { m{^/(?:images|css)/} }),

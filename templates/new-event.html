@@ -1,0 +1,39 @@
+<div id="new-event-notice"></div>
+<div id="new-event-dialog">
+    <form method="POST">
+
+        <label for="author">Author Name</label>
+        <input name="author" placeholder="Author Name" />
+
+        <label for="type">Type</label>
+        <select name="type">
+            <option disabled="disabled" selected="selected">
+                Select type of submission...
+            </option>
+            <option value="event">
+                Event
+            </option>
+            <option value="article">
+                Article
+            </option>
+            <option value="podcast">
+                Podcast
+            </option>
+        </select>
+
+        <label for="location">Event location</label>
+        <input name="location" placeholder="Event location" />
+
+        <label for="description">Description</label>
+        <input name="description" placeholder="Describe the event or article here..." />
+
+        <label for="source">Source of information</label>
+        <input name="source" placeholder="e.g. http://guardian.co.uk/..." />
+
+        <label for="scheduled_datetime">Date/time</label>
+        <input name="scheduled_datetime" placeholder="YYYY-mm-dd HH:MM" />
+
+        <input type="submit" value="Post" />
+    </form>
+
+</div>

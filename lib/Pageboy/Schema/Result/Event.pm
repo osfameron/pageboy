@@ -3,7 +3,7 @@ package Pageboy::Schema::Result::Event;
 
 use DBIx::Class::Candy
     -autotable => v1,
-    -components => [qw/ InflateColumn::DateTime /];
+    -components => [qw/ TimeStamp InflateColumn::DateTime /];
  
 primary_column id => {
   data_type => 'int',
@@ -19,7 +19,7 @@ column author => {
 column author_photo => {
     data_type => 'varchar',
     size => 256,
-    is_nullable => 0,
+    is_nullable => 1,
 };
 
 column description => {
@@ -62,6 +62,7 @@ column scheduled_datetime => {
 
 column created_datetime => {
     data_type => 'datetime',
+    set_on_create => 1,
     is_nullable => 1,
 };
 

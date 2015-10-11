@@ -1,20 +1,11 @@
 use strict; use warnings;
  
 use Test::More;
-use Test::WWW::Mechanize::PSGI;
 use HTTP::Request::Common;
-use Pageboy::Test::Controller;
 use Test::BDD::Cucumber::StepFile;
 use String::Trim;
 
-Before sub {
-    S->{app} = my $app = Pageboy::Test::Controller->new;
-    S->{mech} = Test::WWW::Mechanize::PSGI->new(
-        app => $app->to_app,
-    );
-};
-
-Given qr/^some events in*/, sub {
+Given qr/^some events in/, sub {
     my $app = S->{app};
     my $model = $app->model;
     my $fixtures = $model->fixtures;
@@ -65,12 +56,4 @@ When qr/I visit the landing page.*/, sub {
 Then qr/I should see (?<count>\d+) events.*/, sub {
     my $data = S->{app}->view->data;
     is scalar (@$data), $+{count}, 'Correct number of events';
-};
-
-Given qr/(.*)/, sub { fail "step not defined $1" };
-When  qr/(.*)/, sub { fail "step not defined $1" };
-Then  qr/(.*)/, sub { fail "step not defined $1" };
-
-After sub {
-    S->{app}->teardown;
 };
