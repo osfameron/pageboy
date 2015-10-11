@@ -1,7 +1,5 @@
 package Pageboy::Management;
 
-use Pageboy;
-
 use Moo;
 use MooX::Cmd;
 use MooX::Options;
@@ -11,6 +9,7 @@ has app => (
     is => 'lazy',
     default => sub {
         my $self = shift;
+        load 'Pageboy';
         Pageboy->new;
     },
 );
