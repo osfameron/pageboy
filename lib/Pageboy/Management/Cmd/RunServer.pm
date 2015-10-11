@@ -37,7 +37,7 @@ has psgi => (
 sub execute {
     my ( $self, $args ) = @_;
 
-    # system 'sass', '--update' => 'public/stylesheets';
+    system 'sass', '--update' => 'web/css:web/css';
 
     $self->runner->run;
 }

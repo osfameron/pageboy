@@ -23,6 +23,7 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get install -q -y git vim ack-grep
       sudo apt-get install -q -y perlbrew libssl-dev postgresql libpq-dev
+      sudo apt-get install -q -y ruby-sass
 
       # https URL because no key yet
       git clone https://github.com/osfameron/pageboy.git

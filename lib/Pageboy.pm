@@ -53,7 +53,7 @@ router as {
     route '/' => 'index.handle';
 
     wrap 'Plack::Middleware::Static' => (
-        path => literal(sub { m{^/images/} }),
+        path => literal(sub { m{^/(?:images|css)/} }),
         root => literal('./web/'),
     );
 };

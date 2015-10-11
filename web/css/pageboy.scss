@@ -1,0 +1,195 @@
+html { box-sizing: border-box; }
+*, *:before, *.after { box-sizing: inherit; }
+* {
+    font-family: 'Times New Roman', serif
+}
+
+header {
+    margin-top: 4em;
+    margin-bottom: 2em;
+    padding: 0;
+}
+
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    background: #cc93aa;
+    background: #999966;
+}
+nav ul {
+    padding: 0;
+    margin: 0.5rem;
+}
+nav li {
+    margin: 0;
+    padding: 0;
+    padding-left: 2em;
+    display: inline-block;
+    list-style: none;
+    color: white;
+    font-size: 1.5em;
+}
+
+h1 {
+    font-size: 10em;
+    margin: 0;
+    color: orange;
+    text-shadow: 1px 1px black;
+}
+h1, h2, h3, h4 {
+    font-family: 'Lobster', cursive;
+    font-weight: bold;
+}
+a, a:hover, a:link {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#search-dialog {
+    /* would mark this up as <dialog>, but by default that
+    // sets a whole host of stylings we now have to override... 
+    // (display, position, background:transparent)
+    // and doesn't appear to contain the following <div>, bah.
+    */
+
+    display: block;
+    position: static;
+    background: rgba(100,100,100,0.7);
+    border: none;
+    border-radius: 0.5em;
+
+    padding: 1em;
+    margin: 0;
+    margin-bottom: 2em;
+
+    color: orange;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px black;
+}
+
+#search-box {
+    margin-bottom: 0.5em;
+}
+#search-box > input {
+    display: inline-block;
+    margin: 0;
+    padding: 0.25em;
+    font-size: 1.8em;
+    border: solid 1px black;
+}
+input#search {
+    width: 30.0rem;
+    border-radius: 0.5em 0 0 0.5em;
+}
+input#search-btn {
+    background: #d8a114 url('/images/user_search.png') no-repeat border-box center;
+    margin-left: -8px;
+    width: 4.5rem;
+    border-radius: 0 0.5em 0.5em 0;
+}
+
+#search-tools select {
+    width: 38.5rem;
+}
+#search-tools .select2-selection {
+    padding: 0em;
+    margin: 0em;
+    border: 0;
+    font-size: 2em;
+}
+
+article {
+    background: rgba(0,0,0,0.15);
+    padding: 0.25em;;
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+}
+article.event {
+    background-color: #fac336;
+}
+article.media {
+    background-color: #c3fa36;
+}
+article.post {
+    background-color: #fac336;
+}
+img.featured {
+    width: 100px;
+}
+article > div {
+    display: inline-block;
+    padding: 0.25rem;
+    margin: 0;
+    vertical-align: top;
+}
+article > div:nth-child(2) {
+    position: relative;
+    left: 5px;
+    width: 28rem;
+}
+article > div:nth-child(3) {
+    width: 5rem;
+}
+article h3 {
+    margin-top: 0;
+}
+article p {
+    margin-bottom: 0;
+}
+article h3 .slash {
+    color: #aa0;
+}
+body {
+    background-size: cover;
+    background-color: #fac336 ;
+    background-color: black;
+}
+main {
+    padding: 1rem;
+    display: block;
+}
+main, h1 {
+    width: 40rem;
+    margin: 0 auto;
+}
+
+time {
+    position: relative;
+    left: -4rem;
+    display: inline-block;
+    width: 2.5rem;
+    background: orange;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-variant: small-caps;
+    font-size: 0.8em;
+}
+time * {
+    font-family: 'Gill Sans MT', 'Gill Sans', sans;
+}
+time div {
+    padding: 0.125em;
+    margin: 0;
+}
+time .month, time .year {
+    background: cornsilk;
+    color: grey;
+    width: 100%;
+    margin: 0;
+}
+time .month {
+    font-size: 1.2em;
+}
+time .day--number {
+    font-size: 2em;
+    display: block;
+    padding: 0; margin: 0;
+}
+time .day--name {
+    padding: 0; margin: 0;
+}
