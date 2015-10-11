@@ -1,8 +1,10 @@
 requires 'OX';
+requires 'OX::RouteBuilder::REST';
 
 requires 'Plack';
 requires 'Plack::Middleware::Static';
 requires 'HTML::Zoom';
+requires 'HTML::FormHandler';
 
 requires 'Path::Tiny';
 requires 'Dir::Self';

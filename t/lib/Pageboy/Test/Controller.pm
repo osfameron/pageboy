@@ -17,8 +17,9 @@ to be checked by test.
 =cut
 
 has '+view' => (
-    isa => 'Pageboy::Test::MockView',
-    lifecycle => 'Singleton', # prevent it getting cleared after request
+    dependencies => {
+        clear => dep( value => 1 ),
+    }
 );
 
 1;

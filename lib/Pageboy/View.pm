@@ -30,12 +30,11 @@ has plugins => (
     isa => 'HashRef[Str]',
     default => sub {
         my $self = shift;
-        my $class = ref $self;
         my @plugins = $self->_plugins;
         return +{
             map {
                 my $plugin = $_;
-                (my $key = $plugin)=~s/^${class}::Plugin:://;
+                (my $key = $plugin)=~s/^.*::Plugin:://;
                 ($key => $plugin);
             }
             @plugins

@@ -192,3 +192,28 @@ time .day--number {
 time .day--name {
     padding: 0; margin: 0;
 }
+
+#new-event-dialog {
+    background: rgba(0,0,0,0.15);
+    padding: 0.25em;;
+    border-radius: 0.5em;
+    margin-bottom: 1em;
+    font-size: 1.5em;
+
+    label {
+        display: block;
+        color: white;
+    }
+
+    input, select {
+        padding: 0.2em;
+        display: block;
+        font-size: 1.5em;
+        margin-bottom: 0.5em;
+    }
+
+    input[type="submit"] {
+        background: orange;
+        font-weight: bold;
+    }
+}

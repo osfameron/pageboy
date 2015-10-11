@@ -38,6 +38,11 @@ has 'model' => (
     infer => 0
 );
 
+has '+view' => (
+    isa => 'Pageboy::Test::MockView',
+    lifecycle => 'Singleton', # prevent it getting cleared after request
+);
+
 has '+time' => (
     writer => '_time',
 );
