@@ -55,9 +55,10 @@ sub get_plugin {
 }
 
 sub get_template {
-    my ($self, $template) = @_;
-    my $template_name = kebab_case($template);
-    return path( 'templates', "${template_name}.html" );
+    my ($self, $plugin) = @_;
+    my $template_name = kebab_case($plugin);
+    my $template = path( 'templates', "${template_name}.html" );
+    return $template->exists ? $template : ();
 }
 
 sub render_html {
@@ -65,12 +66,13 @@ sub render_html {
 
     my $container = $self->container;
 
-    if (my $plugin = $self->get_plugin($plugin_name)) {
-        my $template = $self->get_template($plugin_name);
-        my $content = HTML::Zoom->from_html($template->slurp);
+    my $template = $self->get_template($plugin_name);
+    if ($template and my $content = HTML::Zoom->from_html($template->slurp)) {
+        if (my $plugin = $self->get_plugin($plugin_name)) {
 
-        $content = $plugin->process($content, $data);
+            $content = $plugin->process($content, $data);
 
+        }
         $container = $container
             ->select('main')
             ->replace_content( $content );

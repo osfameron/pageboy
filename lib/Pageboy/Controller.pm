@@ -21,22 +21,20 @@ has time => (
     is    => 'ro',
 );
 
-sub index ($self, $r) {
-    my $location = $r->param('location');
-    $location //= $self->geo->get_location_from_ip($r);
-
-    my $params = {
-        scheduled_after => $self->time,
-        $location ? ( location => $location ) : (),
-    };
-
-    my $data = $self->model->list_events($params);
-
-    return $self->render('Index', $data);
+sub get_template ($self) {
+    my $class = ref $self;
+    my $base = __PACKAGE__;
+    return $class =~ s/^${base}:://r;
 }
 
-sub render ($self, $template, $data) {
+sub render ($self, $data) {
+    my $template = $self->get_template;
     return $self->view->render_html($template, $data);
+}
+
+sub handle ($self, $r) {
+    my $data = $self->handle_request($r);
+    return $self->render($data);
 }
 
 1;

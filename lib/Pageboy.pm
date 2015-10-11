@@ -1,14 +1,20 @@
 package Pageboy;
 use OX;
 use DateTime;
+use String::CamelSnakeKebab 'upper_camel_case';
 
-has root => (
-    is    => 'ro',
-    isa   => 'Pageboy::Controller',
-    infer => 1,
-    lifecycle => 'Request',
-    dependencies => ['view', 'model', 'geo', 'time'],
-);
+for my $controller (qw{ index }) {
+    my $controller_subclass =
+        sprintf 'Pageboy::Controller::%s',
+            upper_camel_case($controller);
+    has $controller => (
+        is    => 'ro',
+        isa   => $controller_subclass,
+        infer => 1,
+        lifecycle => 'Request',
+        dependencies => ['view', 'model', 'geo', 'time'],
+    );
+}
 
 has view => (
     is    => 'ro',
@@ -44,7 +50,7 @@ sub setup_fixtures {
 }
 
 router as {
-    route '/' => 'root.index';
+    route '/' => 'index.handle';
 
     wrap 'Plack::Middleware::Static' => (
         path => literal(sub { m{^/images/} }),

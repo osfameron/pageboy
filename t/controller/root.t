@@ -17,7 +17,7 @@ $mech->get_ok('/');
 
 $mech->content_is('', 'sanity check that mock suppresses view output');
 
-is $app->view->template, 'index.html';
+is $app->view->template, 'Index';
 is_deeply $app->view->data,
 [
     {
