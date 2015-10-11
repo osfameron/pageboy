@@ -22,7 +22,6 @@ has time => (
 );
 
 sub index ($self, $r) {
-
     my $location = $r->param('location');
     $location //= $self->geo->get_location_from_ip($r);
 
@@ -33,11 +32,11 @@ sub index ($self, $r) {
 
     my $data = $self->model->list_events($params);
 
-    return $self->render($data);
+    return $self->render('Index', $data);
 }
 
-sub render ($self, $data) {
-    return $self->view->render_html('index.html', $data);
+sub render ($self, $template, $data) {
+    return $self->view->render_html($template, $data);
 }
 
 1;

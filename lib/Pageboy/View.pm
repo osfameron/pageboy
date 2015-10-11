@@ -2,12 +2,16 @@ package Pageboy::View;
 use Moose;
 use Path::Tiny;
 use HTML::Zoom;
+use Module::Pluggable sub_name => '_plugins';
+use Module::Runtime 'require_module';
+use String::CamelSnakeKebab 'kebab_case';
 
 has container_html => (
     is => 'ro',
     lazy => 1,
     default => sub {
-        path('container.html')->slurp
+        my $self = shift;
+        $self->get_template('Container')->slurp;
     }
 );
 
@@ -20,52 +24,60 @@ has container => (
     }
 );
 
-sub render_html {
-    my ($self, $template, $data) = @_;
-    my $container = $self->container;
-    my $content = HTML::Zoom->from_html(path($template)->slurp);
-    my $fn = $self->render_root_fn($data);
-    $content = $content->apply($fn);
-
-    my $html = $container
-        ->select('main')
-        ->replace_content( $content )
-        ->to_html;
-}
-
-sub render_root_fn {
-    my ($self, $data) = @_;
-    return sub {
-        my $last_date = '';
-        $_->select('article')->repeat([
+has plugins => (
+    traits => ['Hash'],
+    is => 'ro',
+    isa => 'HashRef[Str]',
+    default => sub {
+        my $self = shift;
+        my $class = ref $self;
+        my @plugins = $self->_plugins;
+        return +{
             map {
-                my $data = $_;
-                sub {
-                    my $z = $_->select('article')->set_attribute(class => $data->{type});
+                my $plugin = $_;
+                (my $key = $plugin)=~s/^${class}::Plugin:://;
+                ($key => $plugin);
+            }
+            @plugins
+        }
+    },
+    handles => {
+        '_get_plugin' => 'get',
+    },
+);
 
-                    my $is_event = $data->{type} eq 'event';
-                    for my $breadcrumb ('author', $is_event ? 'location' : 'category') {
-                        $z = $z
-                          ->select("a.$breadcrumb")->replace_content($data->{$breadcrumb}{name})
-                          ->then->set_attribute(href => (sprintf '/%s/%s',
-                            $breadcrumb, $data->{$breadcrumb}{slug}))
-                    }
-                    my $date = $data->{date};
-                    $z = $z->select('time')
-                        ->set_attribute(datetime => $date->strftime('%F'))
-                        ->select('.month')->replace_content( $date->strftime('%b') )
-                        ->select('.day--number')->replace_content( $date->strftime('%d') )
-                        ->select('.day--name')->replace_content( $date->strftime('%a') )
-                        ->select('.year')->replace_content( $date->strftime('%Y') );
-                    if ($last_date && ($last_date == $date)) {
-                        $z = $z->select('time')->set_attribute(style => 'visibility: hidden');
-                    }
-                    $last_date = $date;
-                    $z;
-                }
-            } @$data,
-        ])
-    };
+sub get_plugin {
+    my ($self, $plugin_name) = @_;
+    if (my $plugin = $self->_get_plugin($plugin_name)) {
+        require_module($plugin);
+        $plugin->new;
+    }
 }
+
+sub get_template {
+    my ($self, $template) = @_;
+    my $template_name = kebab_case($template);
+    return path( 'templates', "${template_name}.html" );
+}
+
+sub render_html {
+    my ($self, $plugin_name, $data) = @_;
+
+    my $container = $self->container;
+
+    if (my $plugin = $self->get_plugin($plugin_name)) {
+        my $template = $self->get_template($plugin_name);
+        my $content = HTML::Zoom->from_html($template->slurp);
+
+        $content = $plugin->process($content, $data);
+
+        $container = $container
+            ->select('main')
+            ->replace_content( $content );
+    }
+
+    return $container->to_html;
+}
+
 
 1;

@@ -2,10 +2,13 @@ requires 'OX';
 
 requires 'Plack';
 requires 'Plack::Middleware::Static';
+requires 'HTML::Zoom';
+
 requires 'Path::Tiny';
 requires 'Dir::Self';
-requires 'HTML::Zoom';
 requires 'MooseX::AttributeShortcuts';
+requires 'Module::Pluggable';
+requires 'String::CamelSnakeKebab';
 
 requires 'DBD::Pg';
 requires 'DBIx::Class';
