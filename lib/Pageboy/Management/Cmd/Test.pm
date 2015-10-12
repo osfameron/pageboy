@@ -12,12 +12,20 @@ has test_app => (
     },
 );
 
+option features => (
+    is => 'ro',
+);
+
 sub execute {
     my ( $self, $args ) = @_;
 
     local $ENV{TEST_DSN} = $self->test_app->model->dsn;
 
-    if (@$args and -f $args->[-1]) {
+    if ($self->features) {
+        require App::pherkin;
+        App::pherkin->new->run(@$args);
+    }
+    elsif (@$args and -f $args->[-1]) {
         
         system( 'perl',
             '-Ilib',          # add ./lib
