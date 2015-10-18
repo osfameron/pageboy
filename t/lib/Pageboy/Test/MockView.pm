@@ -2,6 +2,10 @@ package Pageboy::Test::MockView;
 use Moose;
 extends 'Pageboy::View';
 
+has clear => (
+    is => 'ro',
+);
+
 has r => (
     is => 'rw',
 );
@@ -14,11 +18,17 @@ has data => (
     is => 'rw',
 );
 
-sub render_html {
-    my ($self, $template, $data) = @_;
-    $self->template($template);
+around render_html  => sub {
+    my ($orig, $self, $plugin_name, $data) = @_;
+    $self->template($plugin_name);
     $self->data($data);
-    return '';
-}
+
+    if ($self->clear) {
+        return '';
+    }
+    else {
+        $self->$orig($plugin_name, $data);
+    }
+};
 
 1;
