@@ -5,7 +5,7 @@ extends 'Pageboy::Controller';
 no warnings 'experimental::signatures';
 use feature 'signatures';
 
-sub handle_request ($self, $r) {
+sub get ($self, $r) {
     my $location = $r->param('location');
     $location //= $self->geo->get_location_from_ip($r);
 

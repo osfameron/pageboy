@@ -15,11 +15,11 @@ has form => (
     },
 );
 
-sub handle_GET ($self, $r) {
-    return $self->render({});
+sub get ($self, $r) {
+    return {}
 }
 
-sub handle_POST ($self, $r) {
+sub post ($self, $r) {
     my $params = $r->parameters;
     my $result = $self->form->run( params => $params );
     my %data;
@@ -32,7 +32,7 @@ sub handle_POST ($self, $r) {
     else {
         $data{posted} = 'failure';
     }
-    return $self->render(\%data);
+    return \%data;
 }
 
 1;

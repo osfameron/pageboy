@@ -27,14 +27,14 @@ sub get_template ($self) {
     return $class =~ s/^${base}:://r;
 }
 
-sub render ($self, $data) {
+sub render ($self, $r, $data) {
     my $template = $self->get_template;
-    return $self->view->render_html($template, $data);
+    my $output = $self->view->render_html($template, $data);
+    return $r->new_response(
+        status => 200,
+        content => $output,
+    )->finalize;
 }
 
-sub handle ($self, $r) {
-    my $data = $self->handle_request($r);
-    return $self->render($data);
-}
 
 1;

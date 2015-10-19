@@ -1,6 +1,6 @@
 package Pageboy;
 use OX;
-use OX::RouteBuilder::REST;
+use Pageboy::RouteBuilder;
 use DateTime;
 use String::CamelSnakeKebab 'upper_camel_case';
 
@@ -50,9 +50,9 @@ sub setup_fixtures {
     $self->model->fixtures->setup_fixtures($self);
 }
 
-router as {
-    route '/' => 'index.handle';
-    route '/new-event' => 'REST.new_event.handle';
+router ['Pageboy::RouteBuilder'] => as {
+    route '/' => 'index';
+    route '/new-event' => 'new_event';
 
     wrap 'Plack::Middleware::Static' => (
         path => literal(sub { m{^/(?:images|css)/} }),
