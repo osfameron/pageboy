@@ -5,20 +5,17 @@ use HTTP::Request::Common;
 use Test::BDD::Cucumber::StepFile;
 use String::Trim;
 
-Given qr/^some events in/, sub {
+Given qr/^some events(?: in)?/, sub {
     my $app = S->{app};
     my $model = $app->model;
     my $fixtures = $model->fixtures;
 
     for my $datum (@{ C->data }) {
-
-        my $location = $datum->{location};
-        my ($count, $unit) = split /\s+/, trim( $datum->{when} );
-
-        $fixtures->create_event($app, {
-            location => $location,
-            scheduled_datetime => [$unit, $count]
-        });
+        if (my $when = delete $datum->{when}) {
+            my ($count, $unit) = split /\s+/, trim( $when );
+            $datum->{scheduled_datetime} = [$unit, $count];
+        }
+        $fixtures->create_event($app, $datum);
     }
 };
 

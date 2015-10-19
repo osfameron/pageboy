@@ -24,6 +24,7 @@ sub setup_fixtures ($self, $model) {
         source => 'Guardian',
         scheduled_datetime => [days => 3],
     });
+    $self->create_author($model, {});
 }
 
 sub create_event ($self, $app, $override) {
@@ -40,6 +41,16 @@ sub create_event ($self, $app, $override) {
         type => 'event',
         source => 'Waterstones',
         description => 'Voice of the left and author of Chavs, Owen Jones will discuss his new paperback, and our Book of the Month, The Establishment.',
+        %$override,
+    });
+};
+
+sub create_author ($self, $app, $override) {
+    $app->model->authors->create({
+        author => 'Owen Jones',
+        author_photo => 'owen-jones-waterstones.jpeg',
+        description => 'Voice of the left and author of Chavs',
+        twitter => 'OwenJones84',
         %$override,
     });
 };

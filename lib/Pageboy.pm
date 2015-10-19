@@ -4,7 +4,7 @@ use Pageboy::RouteBuilder;
 use DateTime;
 use String::CamelSnakeKebab 'upper_camel_case';
 
-for my $controller (qw{ index new_event }) {
+for my $controller (qw{ index new_event author }) {
     my $controller_subclass =
         sprintf 'Pageboy::Controller::%s',
             upper_camel_case($controller);
@@ -53,6 +53,7 @@ sub setup_fixtures {
 router ['Pageboy::RouteBuilder'] => as {
     route '/' => 'index';
     route '/new-event' => 'new_event';
+    route '/author' => 'author';
 
     wrap 'Plack::Middleware::Static' => (
         path => literal(sub { m{^/(?:images|css)/} }),

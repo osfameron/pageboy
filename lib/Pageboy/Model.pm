@@ -41,6 +41,10 @@ sub events ($self) {
     $self->db->resultset('Event');
 }
 
+sub authors ($self) {
+    $self->db->resultset('Author');
+}
+
 sub list_events ($self, $params={}) {
 
     if (my $dt = delete $params->{scheduled_after}) {
@@ -73,6 +77,10 @@ sub create_event ($self, $data) {
     $self->events->create($data);
 }
 
+sub find_author ($self, $author_name) {
+    $self->db->resultset('Author')->search({ author => $author_name })->single;
+}
+
 sub make_name_and_slug ($self, $record, $field) {
     my $value = $record->$field or return;
     return ($field => {
@@ -80,7 +88,6 @@ sub make_name_and_slug ($self, $record, $field) {
         slug => $self->slugify($value),
     });
 }
-
 
 sub slugify ($self, $text) {
     $text =~s/\s+/-/g;
