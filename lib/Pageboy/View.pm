@@ -64,11 +64,15 @@ sub render_html {
 
     my $content = $self->get_template_object($plugin_name);
     if ($content) {
+
+        $content->find('include')->map(sub {
+            $_->replace( $self->get_template_object($_->attr('template')) );
+        });
+
         if (my $plugin = $self->get_plugin($plugin_name)) {
-
             $plugin->process($content, $data); # mutates $content
-
         }
+
         $container
             ->at('main')
             ->content( $content );
