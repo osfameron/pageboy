@@ -54,6 +54,6 @@ When qr/I visit the landing page.*/, sub {
 };
 
 Then qr/I should see (?<count>\d+) events.*/, sub {
-    my $data = S->{app}->view->data;
+    my $data = S->{app}->view->data->{events};
     is scalar (@$data), $+{count}, 'Correct number of events';
 };

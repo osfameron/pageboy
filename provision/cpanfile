@@ -2,7 +2,7 @@ requires 'OX';
 
 requires 'Plack';
 requires 'Plack::Middleware::Static';
-requires 'HTML::Zoom';
+requires 'Mojo::DOM';
 requires 'HTML::FormHandler';
 
 requires 'Path::Tiny';

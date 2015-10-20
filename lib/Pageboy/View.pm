@@ -1,26 +1,17 @@
 package Pageboy::View;
 use Moose;
 use Path::Tiny;
-use HTML::Zoom;
+use Mojo::DOM;
 use Module::Pluggable sub_name => '_plugins';
 use Module::Runtime 'require_module';
 use String::CamelSnakeKebab 'kebab_case';
-
-has container_html => (
-    is => 'ro',
-    lazy => 1,
-    default => sub {
-        my $self = shift;
-        $self->get_template('Container')->slurp;
-    }
-);
 
 has container => (
     is => 'ro',
     lazy => 1,
     default => sub {
         my $self = shift;
-        HTML::Zoom->from_html($self->container_html);
+        $self->get_template_object('Container');
     }
 );
 
@@ -60,25 +51,30 @@ sub get_template {
     return $template->exists ? $template : ();
 }
 
+sub get_template_object {
+    my ($self, $plugin) = @_;
+    my $template = $self->get_template($plugin);
+    return $template ? Mojo::DOM->new($template->slurp) : ();
+}
+
 sub render_html {
     my ($self, $plugin_name, $data) = @_;
 
     my $container = $self->container;
 
-    my $template = $self->get_template($plugin_name);
-    if ($template and my $content = HTML::Zoom->from_html($template->slurp)) {
+    my $content = $self->get_template_object($plugin_name);
+    if ($content) {
         if (my $plugin = $self->get_plugin($plugin_name)) {
 
-            $content = $plugin->process($content, $data);
+            $plugin->process($content, $data); # mutates $content
 
         }
-        $container = $container
-            ->select('main')
-            ->replace_content( $content );
+        $container
+            ->at('main')
+            ->content( $content );
     }
 
-    return $container->to_html;
+    return "$container";
 }
-
 
 1;

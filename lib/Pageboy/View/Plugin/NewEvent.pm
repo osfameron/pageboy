@@ -5,12 +5,10 @@ sub process {
     my ($self, $content, $data) = @_;
 
     if (my $result = $data->{posted}) {
-        $content = $content->select('#new-event-dialog')->replace_content('');
-        $content = $content->select('#new-event-notice')->replace_content(
+        $content->at('#new-event-dialog')->content('');
+        $content->at('#new-event-notice')->content(
             $result eq 'success' ? 'Posted!' : 'Failed!');
     }
-
-    $content;
 }
 
 1;

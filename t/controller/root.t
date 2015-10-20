@@ -18,7 +18,7 @@ $mech->get_ok('/');
 $mech->content_is('', 'sanity check that mock suppresses view output');
 
 is $app->view->template, 'Index';
-is_deeply $app->view->data,
+is_deeply $app->view->data->{events},
 [
     {
         author => { name => 'Owen Jones', slug => 'owen-jones', photo => 'owen-jones-waterstones.jpeg' },

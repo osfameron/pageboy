@@ -14,7 +14,7 @@ sub get ($self, $r) {
         $location ? ( location => $location ) : (),
     };
 
-    $self->model->list_events($params);
+    { events => $self->model->list_events($params) };
 }
 
 1;
