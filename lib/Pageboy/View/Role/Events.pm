@@ -4,41 +4,43 @@ use Moose::Role;
 sub process_events {
     my ($self, $content, $data) = @_;
 
-    my $article_node = $content->at('article');
-    my $article_template = $article_node->to_string;
     my $last_date;
-    my @articles = map {
-        my $datum = $_;
-        my $article = Mojo::DOM->new($article_template);
-        $article->attr(class => $datum->{type});
+    $self->repeat(
+        $content->at('article'),
+        sub {
+            my ($article, $datum) = @_;
 
-        my $is_event = $datum->{type} eq 'event';
-        for my $breadcrumb ('author', $is_event ? 'location' : 'category') {
-            my $node = $article->at("a.$breadcrumb");
-            my $value = $datum->{$breadcrumb};
-            if ($value) {
-                $node->content($value->{name})
-                    ->attr(href => sprintf '/%s/%s',
-                        $breadcrumb, $datum->{$breadcrumb}{slug});
-            }
-            else {
-                $node->remove;
-            }
-        }
-        my $date = $datum->{date};
-        $article->at('time')->attr(datetime => $date->strftime('%F'));
-        $article->at('.month')->content( $date->strftime('%b') );
-        $article->at('.day--number')->content( $date->strftime('%d') );
-        $article->at('.day--name')->content( $date->strftime('%a') );
-        $article->at('.year')->content( $date->strftime('%Y') );
-        if ($last_date && ($last_date == $date)) {
-            $article->at('time')->attr(style => 'visibility: hidden');
-        }
-        $last_date = $date;
-        $article;
-    } @$data;
+            my $is_event = $datum->{type} eq 'event';
+            my $date = $datum->{date};
 
-    $article_node->replace( join '', @articles );
+            $self->bind($article,
+                ':root' => [attr => 'class', $datum->{type}],
+
+                ( map {
+                    my $selector = "a.$_";
+                    if (my $breadcrumb = $datum->{$_}) {
+                        ( $selector => $breadcrumb->{name},
+                          $selector =>
+                            [attr => 'href', sprintf '/%s/%s',
+                             $_, $breadcrumb->{slug}] );
+                    }
+                    else {
+                        ( $selector => ['remove'] );
+                    }
+                } 'author', $is_event ? 'location' : 'category' ),
+
+                'time' => [ attr => 'datetime', $date->strftime('%F') ],
+                '.month' => $date->strftime('%b'),
+                '.day--number' => $date->strftime('%d'),
+                '.day--name' => $date->strftime('%a'),
+                '.year' => $date->strftime('%Y'),
+                ($last_date && ($last_date == $date)) ?
+                    ('time' => [attr => 'style', 'visibility: hidden']) : (),
+            );
+            $last_date = $date;
+        },
+        $data,
+    );
 }
 
 1;

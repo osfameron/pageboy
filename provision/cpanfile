@@ -10,6 +10,8 @@ requires 'Dir::Self';
 requires 'MooseX::AttributeShortcuts';
 requires 'Module::Pluggable';
 requires 'String::CamelSnakeKebab';
+requires 'String::Trim';
+requires 'List::Pairwise';
 
 requires 'DBD::Pg';
 requires 'DBIx::Class';
@@ -20,7 +22,6 @@ requires 'DBIx::Class::InflateColumn::DateTime';
 requires 'DBIx::Class::TimeStamp';
 
 requires 'GeoIP2';
-requires 'String::Trim';
 
 requires 'MooX::Cmd';
 requires 'MooX::Options';

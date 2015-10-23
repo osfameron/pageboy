@@ -1,5 +1,6 @@
 package Pageboy::View::Plugin::Index;
 use Moose;
+extends 'Pageboy::View::Base';
 with 'Pageboy::View::Role::Events';
 
 sub process {

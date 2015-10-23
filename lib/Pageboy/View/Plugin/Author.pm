@@ -1,5 +1,6 @@
 package Pageboy::View::Plugin::Author;
 use Moose;
+extends 'Pageboy::View::Base';
 with 'Pageboy::View::Role::Events';
 
 sub process {
@@ -8,15 +9,18 @@ sub process {
     my $author = $data->{author};
 
     if ($data->{status} eq 'ok') {
-        $content->at('.author-name')->content($author);
-        $content->at('.author-twitter')->content($data->{twitter});
-        $content->at('.author-description')->content($data->{description});
+        $self->bind($content,
+            '.author-name'        => $author,
+            '.author-twitter'     => $data->{twitter},
+            '.author-description' => $data->{description},
+        );
         $self->process_events($content, $data->{events});
     }
     else {
-        $content->at('#author-content')->content('');
-        $content->at('#author-notice')->content(
-            sprintf 'No author found called "%s"', $author);
+        $self->bind($content,
+            '#author-content' => ['remove'],
+            '#author-notice' => sprintf 'No author found called "%s"', $author,
+        );
     }
 }
 
