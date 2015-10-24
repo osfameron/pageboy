@@ -1,5 +1,7 @@
 # pageboy
 
+[![Build Status](https://travis-ci.org/osfameron/pageboy.svg?branch=master)](https://travis-ci.org/osfameron/pageboy)
+
 Hub for curating and subscribing to event feeds
 
 ## Installation
