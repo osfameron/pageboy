@@ -1,0 +1,15 @@
+language: perl
+perl:
+  - "5.20"
+addons:
+  - postgresql: "9.3"
+sudo: false
+env:
+  - TEST_DSN='DBI:Pg:dbname=pageboy;user=postgres'
+install:
+  - cpanm --quiet --installdeps --notest ./provision
+before_script:
+  - psql -c 'create database pageboy;' -U postgres
+  - bin/manage deploydb
+script:
+  - bin/manage test

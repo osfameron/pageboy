@@ -110,11 +110,15 @@ If you need to recreate the database for any reason:
 
 ### Provisioning
 
-    Vagrantfile - file used to automate virtual machine creation on first `vagrant up`
+    Vagrantfile - config to automate virtual machine creation on first `vagrant up`
+
+    .travis.yml - config for Travis testing
 
     provision/
         cpanfile            - all the CPAN modules to load
         minimal-dotfiles/.* - very basic configuration files to start
+
+See https://travis-ci.org/osfameron/pageboy for automated CI builds.
 
 ## Random notes
 

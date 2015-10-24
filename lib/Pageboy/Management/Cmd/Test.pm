@@ -51,7 +51,9 @@ sub execute {
             '-r',           # run recursively
             @ARGV,
         );
-        $ap->run;
+        my $result = $ap->run;
+        my $exit = $result ? 0 : 1;
+        exit $exit;
     }
 }
 
