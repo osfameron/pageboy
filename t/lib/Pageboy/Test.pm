@@ -12,7 +12,7 @@ use feature 'signatures';
 use feature 'say';
 
 has 'model' => (
-    is => 'ro',
+    is => 'lazy',
     default => sub {
         my $self = shift;
         $ENV{TEST_DB_DEPLOYED}++ if $ENV{TEST_DSN};

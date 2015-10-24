@@ -16,10 +16,15 @@ option features => (
     is => 'ro',
 );
 
+option no_db => (
+    is => 'ro',
+);
+
 sub execute {
     my ( $self, $args ) = @_;
 
-    local $ENV{TEST_DSN} = $self->test_app->model->dsn;
+    local $ENV{TEST_DSN} = $self->test_app->model->dsn
+        unless $self->no_db;
 
     if ($self->features) {
         require App::pherkin;
