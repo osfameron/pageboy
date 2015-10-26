@@ -1,0 +1,32 @@
+[% USE date %]
+[% dt = event.datetime %]
+<article class="[% event.type %]">
+    <time datetime="[% date.format(dt, '%F') %]">
+        <div class="month"> [% date.format(dt, '%b') %] </div>
+        <div class="day">
+            <span class="day--number"> [% date.format(dt, '%d') %] </span>
+            <span class="day--name"> [% date.format(dt, '%a') %] </span>
+        </div>
+        <div class="year"> [% date.format(dt, '%Y') %] </div>
+    </time>
+    <div>
+        <h3> 
+            <a class="author" href="/author/[% event.author.slug %]">[% event.author.name %]</a>
+            [% IF event.location %]
+            /
+            <a class="location" href="/location/[% event.location.slug %]">[% event.location.name %]</a>
+            [% END %]
+            [% IF event.category %]
+            /
+            <a class="category" href="/category/[% event.category.slug %]">[% event.category.name %]</a>
+            [% END %]
+
+        </h3>
+        <p>
+            [% event.description %]
+        </p>
+    </div>
+    <div>
+        <img class="featured" src="[% event.author.photo %]" />
+    </div>
+</article>

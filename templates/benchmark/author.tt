@@ -1,0 +1,12 @@
+[% WRAPPER 'container.tt' %]
+<div id="author-notice"></div>
+<div id="author-content">
+    <h2 class="author-name"> [% author %]</h2>
+    <a class="author-twitter" href="https://twitter.com/[% twitter %]">@[% twitter %]</a>
+    <div class="author-description">[% description %]</div>
+
+    [% FOR event IN events %]
+        [% INCLUDE 'event-fragment.tt' %]
+    [% END %]
+</div>
+[% END %]
