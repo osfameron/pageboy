@@ -14,6 +14,8 @@ If you don't like Vagrant, have a look at the instructions in the
 supplied Vagrantfile, which includes an inline shell script with
 all details.
 
+(See also: section on "design view" below)
+
 ## Run tests
 
     bin/manage test
@@ -122,7 +124,30 @@ If you need to recreate the database for any reason:
 
 See https://travis-ci.org/osfameron/pageboy for automated CI builds.
 
-## Random notes
+## Design view
 
- - http://blog.jonudell.net/elmcity-project-faq/ via @amcewen
- - https://opentechcalendar.co.uk/ (also mentioned by @amcewen, I've met the dev at mysoc Edinburgh event)
+If you just want to edit and view the HTML templates, and don't fancy the full
+vagrant installation, then try this lighter weight option.  (Commands assume
+OSX with homebrew http://brew.sh/ and git)
+
+ gem install sass    # for http://sass-lang.com/install
+ brew install cpanm
+
+ git clone https://github.com/osfameron/pageboy.git
+ cd pageboy
+ cpanm --installdeps --with-feature=design ./provision
+
+Now simply:
+
+ sass --watch web/css  # in another terminal tab
+ bin/manage design
+
+and visit http://localhost:5000
+
+This will show links to static pages, with container.html and partials expanded,
+but with no controller logic.  If the dev team have added *fixtures* with sample
+controller output, then each template will additionally have the option to view
+the whole page with the appropriate view logic.
+
+(As this installation only installs a small number of the dependencies, it can't
+run the full code though, see the full Vagrant installation above if required.)

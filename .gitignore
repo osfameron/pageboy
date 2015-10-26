@@ -21,4 +21,5 @@ local
 *.swp
 
 web/css/*.css
+web/css/*.css.map
 .sass-cache/

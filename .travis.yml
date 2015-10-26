@@ -7,7 +7,7 @@ sudo: false
 env:
   - TEST_DSN='DBI:Pg:dbname=pageboy;user=postgres'
 install:
-  - cpanm --quiet --installdeps --notest ./provision
+  - cpanm --quiet --installdeps --with-all-features --with-develop --notest ./provision
 before_script:
   - psql -c 'create database pageboy;' -U postgres
   - bin/manage deploydb

@@ -4,6 +4,16 @@ use Mojo::DOM;
 use Storable 'dclone';
 use List::Pairwise 'mapp';
 
+sub get_container_path {
+    'container'
+}
+
+sub get_template_path {
+    my $self = shift;
+    (my $key = ref $self)=~s/^.*::Plugin:://;
+    return ('pages', $key);
+}
+
 sub bind {
     my ($self, $content, @data) = @_;
     mapp {

@@ -24,7 +24,7 @@ has time => (
 sub get_template ($self) {
     my $class = ref $self;
     my $base = __PACKAGE__;
-    return $class =~ s/^${base}:://r;
+    $class =~ s/^${base}:://r;
 }
 
 sub render ($self, $r, $data) {

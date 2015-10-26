@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get install -q -y git vim ack-grep
       sudo apt-get install -q -y perlbrew libssl-dev postgresql libpq-dev
-      sudo apt-get install -q -y ruby-sass
+      sudo gem install sass
 
       # https URL because no key yet
       git clone https://github.com/osfameron/pageboy.git
@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
 
       cpanm --force Data::Dump::Streamer # https://rt.cpan.org/Public/Bug/Display.html?id=102369
 
-      cpanm --installdeps ./provision/
+      cpanm --installdeps --with-all-features --with-develop ./provision/
 
       mkdir data; pushd data
       wget --quiet http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz

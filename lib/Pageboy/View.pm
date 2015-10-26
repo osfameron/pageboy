@@ -7,15 +7,6 @@ use Module::Pluggable sub_name => '_plugins';
 use Module::Runtime 'require_module';
 use String::CamelSnakeKebab 'kebab_case';
 
-has container => (
-    is => 'ro',
-    lazy => 1,
-    default => sub {
-        my $self = shift;
-        $self->get_template_object('Container');
-    }
-);
-
 has plugins => (
     handles_via => 'Hash',
     # traits => ['Hash'],
@@ -68,25 +59,30 @@ sub get_template_object {
 sub render_html {
     my ($self, $plugin_name, $data) = @_;
 
-    my $container = $self->container;
+    if (my $plugin = $self->get_plugin($plugin_name)) {
 
-    my $content = $self->get_template_object('pages', $plugin_name);
-    if ($content) {
+        my $container = $self->get_template_object(
+            $plugin->get_container_path);
+
+        my $content = $self->get_template_object(
+            $plugin->get_template_path);
 
         $content->find('include')->map(sub {
             $_->replace( $self->get_template_object($_->attr('template')) );
         });
 
-        if (my $plugin = $self->get_plugin($plugin_name)) {
-            $plugin->process($content, $data); # mutates $content
-        }
+        $plugin->process($content, $data) if $data; # mutates $content
 
         $container
             ->at('main')
             ->content( $content );
-    }
 
-    return "$container";
+        return "$container";
+    }
+    else {
+        # possibly search for a static file?
+        die "No plugin found for '$plugin_name'";
+    }
 }
 
 1;

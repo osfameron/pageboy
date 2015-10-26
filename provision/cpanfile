@@ -1,34 +1,61 @@
-requires 'OX';
+# all required modules to run and develop
+feature 'all' => sub {
+    requires 'OX';
 
-requires 'Plack';
-requires 'Plack::Middleware::Static';
-requires 'Mojo::DOM';
-requires 'HTML::FormHandler';
+    requires 'Plack';
+    requires 'Plack::Middleware::Static';
+    requires 'Mojo::DOM';
+    requires 'HTML::FormHandler';
 
-requires 'Path::Tiny';
-requires 'Dir::Self';
-requires 'MooseX::AttributeShortcuts';
-requires 'Module::Pluggable';
-requires 'String::CamelSnakeKebab';
-requires 'String::Trim';
-requires 'List::Pairwise';
+    requires 'Path::Tiny';
+    requires 'Dir::Self';
+    requires 'MooseX::AttributeShortcuts';
+    requires 'Module::Pluggable';
+    requires 'String::CamelSnakeKebab';
+    requires 'String::Trim';
+    requires 'List::Pairwise';
 
-requires 'DBD::Pg';
-requires 'DBIx::Class';
-requires 'DBIx::Class::Migration';
-requires 'DBIx::Class::Candy';
-requires 'Test::PostgreSQL';
-requires 'DBIx::Class::InflateColumn::DateTime';
-requires 'DBIx::Class::TimeStamp';
+    requires 'DBD::Pg';
+    requires 'DBIx::Class';
+    requires 'DBIx::Class::Migration';
+    requires 'DBIx::Class::Candy';
+    requires 'DBIx::Class::InflateColumn::DateTime';
+    requires 'DBIx::Class::TimeStamp';
 
-requires 'GeoIP2';
+    requires 'GeoIP2';
 
-requires 'MooX::Cmd';
-requires 'MooX::Options';
+    requires 'MooX::Cmd';
+    requires 'MooX::Options';
+};
 
-requires 'Test::Most';
-requires 'Test::PostgreSQL';
-requires 'Test::Exception';
-requires 'Test::DBIx::Class';
-requires 'Test::BDD::Cucumber';
-requires 'Test::WWW::Mechanize::PSGI';
+# only install for developers, e.g. skip from design install
+on 'develop' => sub {
+    requires 'Test::Most';
+    requires 'Test::PostgreSQL';
+    requires 'Test::Exception';
+    requires 'Test::DBIx::Class';
+    requires 'Test::BDD::Cucumber';
+    requires 'Test::WWW::Mechanize::PSGI';
+};
+
+# just the modules (some overlapping) to run bin/manage design
+feature 'design' => sub {
+    requires 'MooX::Cmd';
+    requires 'MooX::Options';
+    requires 'MooX::HandlesVia';
+
+    requires 'Module::Runtime';
+    requires 'Module::Pluggable';
+
+    requires 'Plack';
+    requires 'Plack::Middleware::Static';
+
+    requires 'Mojo::DOM';
+    requires 'Path::Tiny';
+    requires 'String::CamelSnakeKebab';
+
+    requires 'String::Trim';
+    requires 'List::Pairwise';
+
+    requires 'DateTime';
+};
