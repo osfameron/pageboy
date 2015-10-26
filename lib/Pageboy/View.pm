@@ -47,15 +47,21 @@ sub get_plugin {
 }
 
 sub get_template {
-    my ($self, $plugin) = @_;
-    my $template_name = kebab_case($plugin);
-    my $template = path( 'templates', "${template_name}.html" );
+    my ($self, @path) = @_;
+    my @template_path = (
+        'templates',
+        map { kebab_case($_) }
+        map { split m{/}, $_ }
+        @path
+    );
+    $template_path[-1] .= '.html';
+    my $template = path( @template_path );
     return $template->exists ? $template : ();
 }
 
 sub get_template_object {
-    my ($self, $plugin) = @_;
-    my $template = $self->get_template($plugin);
+    my ($self, @path) = @_;
+    my $template = $self->get_template(@path);
     return $template ? Mojo::DOM->new($template->slurp) : ();
 }
 
@@ -64,7 +70,7 @@ sub render_html {
 
     my $container = $self->container;
 
-    my $content = $self->get_template_object($plugin_name);
+    my $content = $self->get_template_object('pages', $plugin_name);
     if ($content) {
 
         $content->find('include')->map(sub {
