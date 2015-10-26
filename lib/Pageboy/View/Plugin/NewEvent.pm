@@ -1,5 +1,5 @@
 package Pageboy::View::Plugin::NewEvent;
-use Moose;
+use Moo;
 extends 'Pageboy::View::Base';
 
 sub process {

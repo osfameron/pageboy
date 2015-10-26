@@ -1,5 +1,5 @@
 package Pageboy::View::Role::Events;
-use Moose::Role;
+use Moo::Role;
 
 sub process_events {
     my ($self, $content, $data) = @_;
@@ -15,6 +15,9 @@ sub process_events {
 
             $self->bind($article,
                 ':root' => [attr => 'class', $datum->{type}],
+
+                'p' => $datum->{description},
+                'img' => [attr => 'src', $datum->{author}{photo}],
 
                 ( map {
                     my $selector = "a.$_";

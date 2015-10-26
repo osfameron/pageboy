@@ -1,5 +1,5 @@
 package Pageboy::Test::MockView;
-use Moose;
+use Moo;
 extends 'Pageboy::View';
 
 has clear => (

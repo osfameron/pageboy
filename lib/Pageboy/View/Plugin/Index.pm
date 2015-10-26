@@ -1,5 +1,5 @@
 package Pageboy::View::Plugin::Index;
-use Moose;
+use Moo;
 extends 'Pageboy::View::Base';
 with 'Pageboy::View::Role::Events';
 

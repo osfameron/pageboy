@@ -1,5 +1,5 @@
 package Pageboy::View::Base;
-use Moose;
+use Moo;
 use Mojo::DOM;
 use Storable 'dclone';
 use List::Pairwise 'mapp';

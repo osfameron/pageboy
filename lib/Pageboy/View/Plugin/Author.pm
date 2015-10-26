@@ -1,5 +1,5 @@
 package Pageboy::View::Plugin::Author;
-use Moose;
+use Moo;
 extends 'Pageboy::View::Base';
 with 'Pageboy::View::Role::Events';
 
@@ -11,7 +11,8 @@ sub process {
     if ($data->{status} eq 'ok') {
         $self->bind($content,
             '.author-name'        => $author,
-            '.author-twitter'     => $data->{twitter},
+            '.author-twitter'     => '@' . $data->{twitter},
+            '.author-twitter'     => [attr => 'href', 'https://twitter.com/' . $data->{twitter}],
             '.author-description' => $data->{description},
         );
         $self->process_events($content, $data->{events});

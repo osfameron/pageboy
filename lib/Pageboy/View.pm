@@ -1,5 +1,6 @@
 package Pageboy::View;
-use Moose;
+use Moo;
+use MooX::HandlesVia;
 use Path::Tiny;
 use Mojo::DOM;
 use Module::Pluggable sub_name => '_plugins';
@@ -16,9 +17,10 @@ has container => (
 );
 
 has plugins => (
-    traits => ['Hash'],
+    handles_via => 'Hash',
+    # traits => ['Hash'],
     is => 'ro',
-    isa => 'HashRef[Str]',
+    # isa => 'HashRef[Str]',
     default => sub {
         my $self = shift;
         my @plugins = $self->_plugins;
