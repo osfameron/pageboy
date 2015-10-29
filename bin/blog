@@ -1,0 +1,94 @@
+#!/usr/bin/env perl
+use strict; use warnings;
+use Template;
+use String::CamelSnakeKebab 'kebab_case';
+use Getopt::Long;
+use DateTime;
+use feature 'say';
+
+=head1 NAME
+
+bin/blog - lightweight authoring script for Jekyll blogs
+
+=head1 DESCRIPTION
+
+    bin/blog "This is the title of my blog post"
+    bin/blog -f "..."  # if you want to overwrite an existing draft
+    bin/blog --publish _drafts/yyyy-mm-dd-some-draft.md
+
+=head1 AUTHOR
+
+    osfameron (c) 2015 - released under Perl Artistic Licence
+
+=cut
+
+my $force;
+my $publish;
+
+GetOptions(
+    'force|f' => \$force,
+    'publish|p=s', \$publish,
+) or die "Error in GetOpt";
+
+my $template = "_drafts/yyyy-mm-dd-template.md";
+
+if ($publish) {
+    my $draft = $publish;
+    die "No such draft '$draft'\n" unless -f $draft;
+    die "Bad filename '$draft'\n" unless $draft =~ m{^_drafts/.*md$};
+    die "Can't publish the template file!\n" if $draft eq $template;
+
+    my $dt = DateTime->now;
+
+    my $yyyy_mm_dd = $dt->strftime('%Y-%m-%d');
+
+    (my $output_filename = $draft) =~ s/yyyy-mm-dd/$yyyy_mm_dd/;
+    $output_filename =~s/^_drafts/_posts/;
+
+    die "Won't overwrite $output_filename without --force\n"
+        if (-f $output_filename) && ! $force;
+
+    open my $FH, '>', $output_filename or die $!;
+
+    my $tt = Template->new(START_TAG => '{%', END_TAG => '%}' );
+
+    $tt->process($draft, { date => $dt->strftime('%Y-%m-%d %H:%M') }, $FH)
+        or die $tt->error, "\n";
+
+    close $FH or die $!;
+
+    system 'git', 'add', $output_filename;
+    system 'git', 'commit', $output_filename, -m => "Adding $output_filename";
+    die "System error $!" if $?;
+
+    say 'Just `git push` to finish publication';
+    unlink $draft;
+}
+else {
+
+    my $title = join ' ', @ARGV;
+    my $slug = make_slug($title);
+
+    (my $output_filename = $template) =~ s/template/$slug/;
+
+    die "Won't overwrite $output_filename without --force\n"
+        if (-f $output_filename) && ! $force;
+    open my $FH, '>', $output_filename or die $!;
+
+    my $tt = Template->new();
+
+    $tt->process($template, { title => $title }, $FH)
+        or die $tt->error, "\n";
+
+    close $FH or die $!;
+
+    system $ENV{EDITOR}, $output_filename;
+    say "Use:\n    $0 --publish $output_filename\nto publish" unless $?;
+}
+
+sub make_slug {
+    my $slug = kebab_case(shift);
+    $slug =~ tr{a-zA-Z0-9 }{-}c;
+    $slug =~ s{[-]+}{-}g;
+    return $slug;
+}
