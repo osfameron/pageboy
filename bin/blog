@@ -58,15 +58,25 @@ if ($publish) {
     close $FH or die $!;
 
     system 'git', 'add', $output_filename;
-    system 'git', 'commit', $output_filename, -m => "Adding $output_filename";
+    system 'git', 'commit', $output_filename, -m => "Adding post";
     die "System error $!" if $?;
 
+    # if we've committed above, it's safe to delete the draft
+    system 'git', 'rm', $draft;
+    if ($?) {
+        unlink $draft; # draft wasn't in version control?
+    }
+    else {
+        system 'git', 'rm', $draft;
+        system 'git', 'commit', $output_filename, -m => "Adding post";
+    }
+
     say 'Just `git push` to finish publication';
-    unlink $draft;
 }
 else {
 
-    my $title = join ' ', @ARGV;
+    my $title = join ' ', @ARGV
+        or die "No title provided\n";
     my $slug = make_slug($title);
 
     (my $output_filename = $template) =~ s/template/$slug/;
@@ -84,6 +94,9 @@ else {
 
     system $ENV{EDITOR}, $output_filename;
     say "Use:\n    $0 --publish $output_filename\nto publish" unless $?;
+
+    system 'git', 'add', $output_filename;
+    die "System error $!" if $?;
 }
 
 sub make_slug {
