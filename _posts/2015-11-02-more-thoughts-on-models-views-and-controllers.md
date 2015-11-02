@@ -2,7 +2,7 @@
 layout: post
 title: More thoughts on Models, Views, and Controllers
 cover: book.jpg
-date: {% date %}
+date: 2015-11-02 10:19
 categories: posts
 tags: perl ox pageboy
 ---
