@@ -1,6 +1,6 @@
 name: Pageboy
 markdown: redcarpet
-pygments: true
+highlight: pygments
 baseurl: /pageboy
 description: Development blog for Pageboy
 url: http://osfameron.github.io/pageboy
