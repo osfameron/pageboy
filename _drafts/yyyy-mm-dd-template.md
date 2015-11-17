@@ -2,7 +2,7 @@
 layout: post
 title: [% title %]
 cover: book.jpg
-date: {% date %}
+date: {{ date }}
 categories: posts
 tags: perl ox pageboy
 ---

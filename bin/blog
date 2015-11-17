@@ -50,7 +50,7 @@ if ($publish) {
 
     open my $FH, '>', $output_filename or die $!;
 
-    my $tt = Template->new(START_TAG => '{%', END_TAG => '%}' );
+    my $tt = Template->new(START_TAG => '{{', END_TAG => '}}' );
 
     $tt->process($draft, { date => $dt->strftime('%Y-%m-%d %H:%M') }, $FH)
         or die $tt->error, "\n";
